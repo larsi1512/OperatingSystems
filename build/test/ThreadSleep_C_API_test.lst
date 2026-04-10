@@ -1,0 +1,471 @@
+GAS LISTING /tmp/ccWXmpUT.s 			page 1
+
+
+   1              		.file	"ThreadSleep_C_API_test.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.section	.rodata.str1.8,"aMS",@progbits,1
+   7              		.align	3
+   8              	.LC0:
+   9 0000 48656C6C 		.string	"Hello "
+   9      6F2000
+  10 0007 00       		.align	3
+  11              	.LC1:
+  12 0008 20210A00 		.string	" !\n"
+  13              		.text
+  14              		.align	2
+  16              	_ZL9sleepyRunPv:
+  17              	.LFB21:
+  18              		.file 1 "test/ThreadSleep_C_API_test.cpp"
+   1:test/ThreadSleep_C_API_test.cpp **** #include "../h/syscall_c.h"
+   2:test/ThreadSleep_C_API_test.cpp **** 
+   3:test/ThreadSleep_C_API_test.cpp **** #include "printing.hpp"
+   4:test/ThreadSleep_C_API_test.cpp **** 
+   5:test/ThreadSleep_C_API_test.cpp **** static volatile bool finished[2];
+   6:test/ThreadSleep_C_API_test.cpp **** 
+   7:test/ThreadSleep_C_API_test.cpp **** static void sleepyRun(void *arg) {
+  19              		.loc 1 7 34
+  20              		.cfi_startproc
+  21              	.LVL0:
+  22 0000 130101FE 		addi	sp,sp,-32
+  23              		.cfi_def_cfa_offset 32
+  24 0004 233C1100 		sd	ra,24(sp)
+  25 0008 23388100 		sd	s0,16(sp)
+  26 000c 23349100 		sd	s1,8(sp)
+  27 0010 23302101 		sd	s2,0(sp)
+  28              		.cfi_offset 1, -8
+  29              		.cfi_offset 8, -16
+  30              		.cfi_offset 9, -24
+  31              		.cfi_offset 18, -32
+  32 0014 13040102 		addi	s0,sp,32
+  33              		.cfi_def_cfa 8, 0
+   8:test/ThreadSleep_C_API_test.cpp ****     time_t sleep_time = *((time_t *) arg);
+  34              		.loc 1 8 5
+  35              		.loc 1 8 12 is_stmt 0
+  36 0018 03390500 		ld	s2,0(a0)
+  37              	.LVL1:
+   9:test/ThreadSleep_C_API_test.cpp ****     int i = 6;
+  38              		.loc 1 9 5 is_stmt 1
+  39              		.loc 1 9 9 is_stmt 0
+  40 001c 93046000 		li	s1,6
+  41              	.LVL2:
+  42              	.L3:
+  10:test/ThreadSleep_C_API_test.cpp ****     while (--i > 0) {
+  43              		.loc 1 10 5 is_stmt 1
+  44              		.loc 1 10 16
+  45 0020 9B84F4FF 		addiw	s1,s1,-1
+  46              	.LVL3:
+  47 0024 635E9002 		blez	s1,.L2
+GAS LISTING /tmp/ccWXmpUT.s 			page 2
+
+
+  11:test/ThreadSleep_C_API_test.cpp **** 
+  12:test/ThreadSleep_C_API_test.cpp ****         printString("Hello ");
+  48              		.loc 1 12 9
+  49              		.loc 1 12 20 is_stmt 0
+  50 0028 17050000 		lla	a0,.LC0
+  50      13050500 
+  51 0030 97000000 		call	_Z11printStringPKc@plt
+  51      E7800000 
+  52              	.LVL4:
+  13:test/ThreadSleep_C_API_test.cpp ****         printInt(sleep_time);
+  53              		.loc 1 13 9 is_stmt 1
+  54              		.loc 1 13 17 is_stmt 0
+  55 0038 13060000 		li	a2,0
+  56 003c 9305A000 		li	a1,10
+  57 0040 1B050900 		sext.w	a0,s2
+  58 0044 97000000 		call	_Z8printIntiii@plt
+  58      E7800000 
+  59              	.LVL5:
+  14:test/ThreadSleep_C_API_test.cpp ****         printString(" !\n");
+  60              		.loc 1 14 9 is_stmt 1
+  61              		.loc 1 14 20 is_stmt 0
+  62 004c 17050000 		lla	a0,.LC1
+  62      13050500 
+  63 0054 97000000 		call	_Z11printStringPKc@plt
+  63      E7800000 
+  64              	.LVL6:
+  10:test/ThreadSleep_C_API_test.cpp **** 
+  65              		.loc 1 10 5
+  66 005c 6FF05FFC 		j	.L3
+  67              	.L2:
+  15:test/ThreadSleep_C_API_test.cpp ****        // time_sleep(sleep_time);
+  16:test/ThreadSleep_C_API_test.cpp ****     }
+  17:test/ThreadSleep_C_API_test.cpp ****     finished[sleep_time/10-1] = true;
+  68              		.loc 1 17 5 is_stmt 1
+  69              		.loc 1 17 24 is_stmt 0
+  70 0060 9307A000 		li	a5,10
+  71 0064 3359F902 		divu	s2,s2,a5
+  72              	.LVL7:
+  73              		.loc 1 17 27
+  74 0068 1309F9FF 		addi	s2,s2,-1
+  75              		.loc 1 17 31
+  76 006c 97070000 		lla	a5,.LANCHOR0
+  76      93870700 
+  77 0074 33892701 		add	s2,a5,s2
+  78 0078 93071000 		li	a5,1
+  79 007c 2300F900 		sb	a5,0(s2)
+  18:test/ThreadSleep_C_API_test.cpp **** }
+  80              		.loc 1 18 1
+  81 0080 83308101 		ld	ra,24(sp)
+  82              		.cfi_restore 1
+  83 0084 03340101 		ld	s0,16(sp)
+  84              		.cfi_restore 8
+  85              		.cfi_def_cfa 2, 32
+  86 0088 83348100 		ld	s1,8(sp)
+  87              		.cfi_restore 9
+  88 008c 03390100 		ld	s2,0(sp)
+  89              		.cfi_restore 18
+GAS LISTING /tmp/ccWXmpUT.s 			page 3
+
+
+  90 0090 13010102 		addi	sp,sp,32
+  91              		.cfi_def_cfa_offset 0
+  92 0094 67800000 		jr	ra
+  93              		.cfi_endproc
+  94              	.LFE21:
+  96              		.align	2
+  97              		.globl	_Z12testSleepingv
+  99              	_Z12testSleepingv:
+ 100              	.LFB22:
+  19:test/ThreadSleep_C_API_test.cpp **** 
+  20:test/ThreadSleep_C_API_test.cpp **** void testSleeping() {
+ 101              		.loc 1 20 21 is_stmt 1
+ 102              		.cfi_startproc
+ 103 0098 130101FC 		addi	sp,sp,-64
+ 104              		.cfi_def_cfa_offset 64
+ 105 009c 233C1102 		sd	ra,56(sp)
+ 106 00a0 23388102 		sd	s0,48(sp)
+ 107 00a4 23349102 		sd	s1,40(sp)
+ 108              		.cfi_offset 1, -8
+ 109              		.cfi_offset 8, -16
+ 110              		.cfi_offset 9, -24
+ 111 00a8 13040104 		addi	s0,sp,64
+ 112              		.cfi_def_cfa 8, 0
+  21:test/ThreadSleep_C_API_test.cpp ****     const int sleepy_thread_count = 2;
+ 113              		.loc 1 21 5
+ 114              	.LVL8:
+  22:test/ThreadSleep_C_API_test.cpp ****     time_t sleep_times[sleepy_thread_count] = {10, 20};
+ 115              		.loc 1 22 5
+ 116              		.loc 1 22 12 is_stmt 0
+ 117 00ac 9307A000 		li	a5,10
+ 118 00b0 2338F4FC 		sd	a5,-48(s0)
+ 119 00b4 93074001 		li	a5,20
+ 120 00b8 233CF4FC 		sd	a5,-40(s0)
+  23:test/ThreadSleep_C_API_test.cpp ****     thread_t sleepyThread[sleepy_thread_count];
+ 121              		.loc 1 23 5 is_stmt 1
+  24:test/ThreadSleep_C_API_test.cpp **** 
+  25:test/ThreadSleep_C_API_test.cpp ****     for (int i = 0; i < sleepy_thread_count; i++) {
+ 122              		.loc 1 25 5
+ 123              	.LVL9:
+ 124              	.LBB2:
+ 125              		.loc 1 25 14 is_stmt 0
+ 126 00bc 93040000 		li	s1,0
+ 127 00c0 6F00C002 		j	.L7
+ 128              	.LVL10:
+ 129              	.L10:
+  26:test/ThreadSleep_C_API_test.cpp ****         thread_create(&sleepyThread[i], sleepyRun, sleep_times + i);
+ 130              		.loc 1 26 9 is_stmt 1
+ 131              		.loc 1 26 64 is_stmt 0
+ 132 00c4 93973400 		slli	a5,s1,3
+ 133              		.loc 1 26 22
+ 134 00c8 130604FD 		addi	a2,s0,-48
+ 135 00cc 3306F600 		add	a2,a2,a5
+ 136 00d0 97050000 		lla	a1,_ZL9sleepyRunPv
+ 136      93850500 
+ 137 00d8 130504FC 		addi	a0,s0,-64
+ 138 00dc 3305F500 		add	a0,a0,a5
+ 139 00e0 97000000 		call	_Z13thread_createPP3TCBPFvPvES2_@plt
+GAS LISTING /tmp/ccWXmpUT.s 			page 4
+
+
+ 139      E7800000 
+ 140              	.LVL11:
+  25:test/ThreadSleep_C_API_test.cpp ****         thread_create(&sleepyThread[i], sleepyRun, sleep_times + i);
+ 141              		.loc 1 25 5 is_stmt 1
+ 142 00e8 9B841400 		addiw	s1,s1,1
+ 143              	.LVL12:
+ 144              	.L7:
+  25:test/ThreadSleep_C_API_test.cpp ****         thread_create(&sleepyThread[i], sleepyRun, sleep_times + i);
+ 145              		.loc 1 25 23 discriminator 1
+ 146 00ec 93071000 		li	a5,1
+ 147 00f0 E3DA97FC 		ble	s1,a5,.L10
+ 148              	.L8:
+ 149              	.LBE2:
+  27:test/ThreadSleep_C_API_test.cpp ****     }
+  28:test/ThreadSleep_C_API_test.cpp **** 
+  29:test/ThreadSleep_C_API_test.cpp ****     while (!(finished[0] && finished[1])) {}
+ 150              		.loc 1 29 5
+ 151              		.loc 1 29 12
+ 152              		.loc 1 29 24 is_stmt 0
+ 153 00f4 97070000 		lbu	a5,.LANCHOR0
+ 153      83C70700 
+ 154              		.loc 1 29 12
+ 155 00fc E38C07FE 		beqz	a5,.L8
+ 156              		.loc 1 29 39 discriminator 2
+ 157 0100 97070000 		lbu	a5,.LANCHOR0+1
+ 157      83C70700 
+ 158              		.loc 1 29 12 discriminator 2
+ 159 0108 E38607FE 		beqz	a5,.L8
+  30:test/ThreadSleep_C_API_test.cpp **** }
+ 160              		.loc 1 30 1
+ 161 010c 83308103 		ld	ra,56(sp)
+ 162              		.cfi_restore 1
+ 163 0110 03340103 		ld	s0,48(sp)
+ 164              		.cfi_restore 8
+ 165              		.cfi_def_cfa 2, 64
+ 166 0114 83348102 		ld	s1,40(sp)
+ 167              		.cfi_restore 9
+ 168              	.LVL13:
+ 169 0118 13010104 		addi	sp,sp,64
+ 170              		.cfi_def_cfa_offset 0
+ 171 011c 67800000 		jr	ra
+ 172              		.cfi_endproc
+ 173              	.LFE22:
+ 175              		.bss
+ 176              		.align	3
+ 177              		.set	.LANCHOR0,. + 0
+ 180              	_ZL8finished:
+ 181 0000 0000     		.zero	2
+ 182              		.text
+ 183              	.Letext0:
+ 184              		.file 2 "test/../h/../h/../lib/hw.h"
+ 185              		.file 3 "test/../h/../h/../h/list.hpp"
+ 186              		.file 4 "test/../h/../h/tcb.hpp"
+ 187              		.file 5 "test/../h/../h/../h/syscall_cpp.hpp"
+ 188              		.file 6 "test/../h/syscall_c.h"
+ 189              		.file 7 "test/printing.hpp"
+GAS LISTING /tmp/ccWXmpUT.s 			page 5
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 ThreadSleep_C_API_test.cpp
+     /tmp/ccWXmpUT.s:16     .text:0000000000000000 _ZL9sleepyRunPv
+     /tmp/ccWXmpUT.s:20     .text:0000000000000000 .L0 
+     /tmp/ccWXmpUT.s:22     .text:0000000000000000 .L0 
+     /tmp/ccWXmpUT.s:23     .text:0000000000000004 .L0 
+     /tmp/ccWXmpUT.s:28     .text:0000000000000014 .L0 
+     /tmp/ccWXmpUT.s:29     .text:0000000000000014 .L0 
+     /tmp/ccWXmpUT.s:30     .text:0000000000000014 .L0 
+     /tmp/ccWXmpUT.s:31     .text:0000000000000014 .L0 
+     /tmp/ccWXmpUT.s:33     .text:0000000000000018 .L0 
+     /tmp/ccWXmpUT.s:35     .text:0000000000000018 .L0 
+     /tmp/ccWXmpUT.s:36     .text:0000000000000018 .L0 
+     /tmp/ccWXmpUT.s:39     .text:000000000000001c .L0 
+     /tmp/ccWXmpUT.s:40     .text:000000000000001c .L0 
+     /tmp/ccWXmpUT.s:44     .text:0000000000000020 .L0 
+     /tmp/ccWXmpUT.s:45     .text:0000000000000020 .L0 
+     /tmp/ccWXmpUT.s:49     .text:0000000000000028 .L0 
+     /tmp/ccWXmpUT.s:50     .text:0000000000000028 .L0 
+     /tmp/ccWXmpUT.s:54     .text:0000000000000038 .L0 
+     /tmp/ccWXmpUT.s:55     .text:0000000000000038 .L0 
+     /tmp/ccWXmpUT.s:61     .text:000000000000004c .L0 
+     /tmp/ccWXmpUT.s:62     .text:000000000000004c .L0 
+     /tmp/ccWXmpUT.s:66     .text:000000000000005c .L0 
+     /tmp/ccWXmpUT.s:69     .text:0000000000000060 .L0 
+     /tmp/ccWXmpUT.s:70     .text:0000000000000060 .L0 
+     /tmp/ccWXmpUT.s:74     .text:0000000000000068 .L0 
+     /tmp/ccWXmpUT.s:76     .text:000000000000006c .L0 
+     /tmp/ccWXmpUT.s:81     .text:0000000000000080 .L0 
+     /tmp/ccWXmpUT.s:82     .text:0000000000000084 .L0 
+     /tmp/ccWXmpUT.s:84     .text:0000000000000088 .L0 
+     /tmp/ccWXmpUT.s:85     .text:0000000000000088 .L0 
+     /tmp/ccWXmpUT.s:87     .text:000000000000008c .L0 
+     /tmp/ccWXmpUT.s:89     .text:0000000000000090 .L0 
+     /tmp/ccWXmpUT.s:91     .text:0000000000000094 .L0 
+     /tmp/ccWXmpUT.s:93     .text:0000000000000098 .L0 
+     /tmp/ccWXmpUT.s:99     .text:0000000000000098 _Z12testSleepingv
+     /tmp/ccWXmpUT.s:102    .text:0000000000000098 .L0 
+     /tmp/ccWXmpUT.s:103    .text:0000000000000098 .L0 
+     /tmp/ccWXmpUT.s:104    .text:000000000000009c .L0 
+     /tmp/ccWXmpUT.s:108    .text:00000000000000a8 .L0 
+     /tmp/ccWXmpUT.s:109    .text:00000000000000a8 .L0 
+     /tmp/ccWXmpUT.s:110    .text:00000000000000a8 .L0 
+     /tmp/ccWXmpUT.s:112    .text:00000000000000ac .L0 
+     /tmp/ccWXmpUT.s:115    .text:00000000000000ac .L0 
+     /tmp/ccWXmpUT.s:116    .text:00000000000000ac .L0 
+     /tmp/ccWXmpUT.s:117    .text:00000000000000ac .L0 
+     /tmp/ccWXmpUT.s:122    .text:00000000000000bc .L0 
+     /tmp/ccWXmpUT.s:125    .text:00000000000000bc .L0 
+     /tmp/ccWXmpUT.s:126    .text:00000000000000bc .L0 
+     /tmp/ccWXmpUT.s:131    .text:00000000000000c4 .L0 
+     /tmp/ccWXmpUT.s:132    .text:00000000000000c4 .L0 
+     /tmp/ccWXmpUT.s:134    .text:00000000000000c8 .L0 
+     /tmp/ccWXmpUT.s:142    .text:00000000000000e8 .L0 
+     /tmp/ccWXmpUT.s:146    .text:00000000000000ec .L0 
+     /tmp/ccWXmpUT.s:151    .text:00000000000000f4 .L0 
+     /tmp/ccWXmpUT.s:152    .text:00000000000000f4 .L0 
+GAS LISTING /tmp/ccWXmpUT.s 			page 6
+
+
+     /tmp/ccWXmpUT.s:153    .text:00000000000000f4 .L0 
+     /tmp/ccWXmpUT.s:155    .text:00000000000000fc .L0 
+     /tmp/ccWXmpUT.s:157    .text:0000000000000100 .L0 
+     /tmp/ccWXmpUT.s:159    .text:0000000000000108 .L0 
+     /tmp/ccWXmpUT.s:161    .text:000000000000010c .L0 
+     /tmp/ccWXmpUT.s:162    .text:0000000000000110 .L0 
+     /tmp/ccWXmpUT.s:164    .text:0000000000000114 .L0 
+     /tmp/ccWXmpUT.s:165    .text:0000000000000114 .L0 
+     /tmp/ccWXmpUT.s:167    .text:0000000000000118 .L0 
+     /tmp/ccWXmpUT.s:170    .text:000000000000011c .L0 
+     /tmp/ccWXmpUT.s:172    .text:0000000000000120 .L0 
+     /tmp/ccWXmpUT.s:177    .bss:0000000000000000 .LANCHOR0
+     /tmp/ccWXmpUT.s:180    .bss:0000000000000000 _ZL8finished
+     /tmp/ccWXmpUT.s:190    .text:0000000000000120 .L0 
+     /tmp/ccWXmpUT.s:8      .rodata.str1.8:0000000000000000 .LC0
+     /tmp/ccWXmpUT.s:50     .text:0000000000000028 .L0 
+     /tmp/ccWXmpUT.s:11     .rodata.str1.8:0000000000000008 .LC1
+     /tmp/ccWXmpUT.s:62     .text:000000000000004c .L0 
+     /tmp/ccWXmpUT.s:76     .text:000000000000006c .L0 
+     /tmp/ccWXmpUT.s:136    .text:00000000000000d0 .L0 
+     /tmp/ccWXmpUT.s:153    .text:00000000000000f4 .L0 
+     /tmp/ccWXmpUT.s:157    .text:0000000000000100 .L0 
+     /tmp/ccWXmpUT.s:67     .text:0000000000000060 .L2
+     /tmp/ccWXmpUT.s:42     .text:0000000000000020 .L3
+     /tmp/ccWXmpUT.s:144    .text:00000000000000ec .L7
+     /tmp/ccWXmpUT.s:129    .text:00000000000000c4 .L10
+     /tmp/ccWXmpUT.s:148    .text:00000000000000f4 .L8
+     /tmp/ccWXmpUT.s:1068   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/ccWXmpUT.s:2177   .debug_str:000000000000058e .LASF91
+     /tmp/ccWXmpUT.s:2071   .debug_str:0000000000000272 .LASF92
+     /tmp/ccWXmpUT.s:2143   .debug_str:0000000000000478 .LASF93
+     /tmp/ccWXmpUT.s:5      .text:0000000000000000 .Ltext0
+     /tmp/ccWXmpUT.s:183    .text:0000000000000120 .Letext0
+     /tmp/ccWXmpUT.s:1989   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/ccWXmpUT.s:2119   .debug_str:00000000000003cf .LASF0
+     /tmp/ccWXmpUT.s:2133   .debug_str:0000000000000417 .LASF1
+     /tmp/ccWXmpUT.s:2107   .debug_str:0000000000000373 .LASF2
+     /tmp/ccWXmpUT.s:2079   .debug_str:00000000000002d6 .LASF4
+     /tmp/ccWXmpUT.s:2167   .debug_str:000000000000054a .LASF3
+     /tmp/ccWXmpUT.s:2009   .debug_str:000000000000008c .LASF5
+     /tmp/ccWXmpUT.s:2037   .debug_str:0000000000000137 .LASF6
+     /tmp/ccWXmpUT.s:2139   .debug_str:000000000000045a .LASF7
+     /tmp/ccWXmpUT.s:2117   .debug_str:00000000000003bc .LASF8
+     /tmp/ccWXmpUT.s:2185   .debug_str:0000000000000683 .LASF9
+     /tmp/ccWXmpUT.s:2061   .debug_str:00000000000001fe .LASF10
+     /tmp/ccWXmpUT.s:2147   .debug_str:00000000000004b9 .LASF11
+     /tmp/ccWXmpUT.s:2181   .debug_str:000000000000065e .LASF12
+     /tmp/ccWXmpUT.s:2015   .debug_str:00000000000000a6 .LASF13
+     /tmp/ccWXmpUT.s:1997   .debug_str:000000000000002f .LASF14
+     /tmp/ccWXmpUT.s:2021   .debug_str:00000000000000cd .LASF15
+     /tmp/ccWXmpUT.s:2163   .debug_str:000000000000052e .LASF16
+     /tmp/ccWXmpUT.s:2031   .debug_str:000000000000010e .LASF17
+     /tmp/ccWXmpUT.s:2099   .debug_str:0000000000000352 .LASF35
+     /tmp/ccWXmpUT.s:2101   .debug_str:000000000000035c .LASF94
+     /tmp/ccWXmpUT.s:2035   .debug_str:0000000000000132 .LASF18
+     /tmp/ccWXmpUT.s:2105   .debug_str:000000000000036e .LASF19
+     /tmp/ccWXmpUT.s:2077   .debug_str:00000000000002d1 .LASF20
+GAS LISTING /tmp/ccWXmpUT.s 			page 7
+
+
+     /tmp/ccWXmpUT.s:2173   .debug_str:0000000000000572 .LASF22
+     /tmp/ccWXmpUT.s:2161   .debug_str:0000000000000517 .LASF27
+     /tmp/ccWXmpUT.s:2113   .debug_str:000000000000039d .LASF95
+     /tmp/ccWXmpUT.s:2065   .debug_str:000000000000021e .LASF96
+     /tmp/ccWXmpUT.s:2175   .debug_str:0000000000000585 .LASF21
+     /tmp/ccWXmpUT.s:2043   .debug_str:000000000000016c .LASF23
+     /tmp/ccWXmpUT.s:2059   .debug_str:00000000000001f6 .LASF24
+     /tmp/ccWXmpUT.s:2041   .debug_str:0000000000000150 .LASF25
+     /tmp/ccWXmpUT.s:2179   .debug_str:0000000000000652 .LASF26
+     /tmp/ccWXmpUT.s:1995   .debug_str:0000000000000011 .LASF28
+     /tmp/ccWXmpUT.s:2019   .debug_str:00000000000000c3 .LASF29
+     /tmp/ccWXmpUT.s:2091   .debug_str:000000000000030b .LASF30
+     /tmp/ccWXmpUT.s:2127   .debug_str:00000000000003fc .LASF31
+     /tmp/ccWXmpUT.s:2005   .debug_str:0000000000000056 .LASF32
+     /tmp/ccWXmpUT.s:2095   .debug_str:000000000000033b .LASF33
+     /tmp/ccWXmpUT.s:2193   .debug_str:00000000000006b6 .LASF34
+     /tmp/ccWXmpUT.s:2001   .debug_str:0000000000000049 .LASF97
+     /tmp/ccWXmpUT.s:2045   .debug_str:0000000000000189 .LASF36
+     /tmp/ccWXmpUT.s:2155   .debug_str:00000000000004f0 .LASF37
+     /tmp/ccWXmpUT.s:2141   .debug_str:000000000000046d .LASF38
+     /tmp/ccWXmpUT.s:2027   .debug_str:00000000000000ec .LASF39
+     /tmp/ccWXmpUT.s:2109   .debug_str:0000000000000381 .LASF40
+     /tmp/ccWXmpUT.s:2073   .debug_str:0000000000000292 .LASF41
+     /tmp/ccWXmpUT.s:1999   .debug_str:000000000000003f .LASF42
+     /tmp/ccWXmpUT.s:2093   .debug_str:0000000000000326 .LASF43
+     /tmp/ccWXmpUT.s:2081   .debug_str:00000000000002dd .LASF44
+     /tmp/ccWXmpUT.s:2183   .debug_str:000000000000066d .LASF45
+     /tmp/ccWXmpUT.s:2103   .debug_str:0000000000000361 .LASF46
+     /tmp/ccWXmpUT.s:2007   .debug_str:0000000000000073 .LASF47
+     /tmp/ccWXmpUT.s:2089   .debug_str:00000000000002fe .LASF48
+     /tmp/ccWXmpUT.s:2069   .debug_str:000000000000024e .LASF49
+     /tmp/ccWXmpUT.s:2157   .debug_str:00000000000004fc .LASF98
+     /tmp/ccWXmpUT.s:2145   .debug_str:00000000000004a4 .LASF50
+     /tmp/ccWXmpUT.s:2055   .debug_str:00000000000001c1 .LASF51
+     /tmp/ccWXmpUT.s:2149   .debug_str:00000000000004c8 .LASF52
+     /tmp/ccWXmpUT.s:2159   .debug_str:0000000000000501 .LASF54
+     /tmp/ccWXmpUT.s:2165   .debug_str:0000000000000544 .LASF53
+     /tmp/ccWXmpUT.s:2111   .debug_str:000000000000038d .LASF55
+     /tmp/ccWXmpUT.s:2171   .debug_str:000000000000056d .LASF57
+     /tmp/ccWXmpUT.s:2151   .debug_str:00000000000004d3 .LASF66
+     /tmp/ccWXmpUT.s:2047   .debug_str:000000000000018e .LASF56
+     /tmp/ccWXmpUT.s:2115   .debug_str:00000000000003a7 .LASF99
+     /tmp/ccWXmpUT.s:2085   .debug_str:00000000000002f1 .LASF58
+     /tmp/ccWXmpUT.s:2025   .debug_str:00000000000000e6 .LASF59
+     /tmp/ccWXmpUT.s:2087   .debug_str:00000000000002f6 .LASF60
+     /tmp/ccWXmpUT.s:2129   .debug_str:0000000000000407 .LASF61
+     /tmp/ccWXmpUT.s:2083   .debug_str:00000000000002e8 .LASF62
+     /tmp/ccWXmpUT.s:1993   .debug_str:0000000000000009 .LASF63
+     /tmp/ccWXmpUT.s:2029   .debug_str:0000000000000103 .LASF64
+     /tmp/ccWXmpUT.s:2097   .debug_str:0000000000000344 .LASF68
+     /tmp/ccWXmpUT.s:2067   .debug_str:0000000000000235 .LASF70
+     /tmp/ccWXmpUT.s:2187   .debug_str:0000000000000693 .LASF100
+     /tmp/ccWXmpUT.s:2075   .debug_str:00000000000002a9 .LASF101
+     /tmp/ccWXmpUT.s:2131   .debug_str:0000000000000411 .LASF65
+     /tmp/ccWXmpUT.s:2049   .debug_str:0000000000000196 .LASF67
+     /tmp/ccWXmpUT.s:2123   .debug_str:00000000000003e7 .LASF69
+     /tmp/ccWXmpUT.s:2051   .debug_str:00000000000001a9 .LASF71
+GAS LISTING /tmp/ccWXmpUT.s 			page 8
+
+
+     /tmp/ccWXmpUT.s:2011   .debug_str:0000000000000093 .LASF72
+     /tmp/ccWXmpUT.s:2063   .debug_str:000000000000020c .LASF73
+     /tmp/ccWXmpUT.s:2169   .debug_str:000000000000055c .LASF102
+     /tmp/ccWXmpUT.s:2013   .debug_str:000000000000009b .LASF74
+     /tmp/ccWXmpUT.s:2191   .debug_str:00000000000006ab .LASF75
+     /tmp/ccWXmpUT.s:1991   .debug_str:0000000000000000 .LASF76
+     /tmp/ccWXmpUT.s:2003   .debug_str:0000000000000051 .LASF77
+     /tmp/ccWXmpUT.s:2053   .debug_str:00000000000001bc .LASF78
+     /tmp/ccWXmpUT.s:2017   .debug_str:00000000000000b6 .LASF79
+     /tmp/ccWXmpUT.s:2039   .debug_str:000000000000013e .LASF80
+     /tmp/ccWXmpUT.s:100    .text:0000000000000098 .LFB22
+     /tmp/ccWXmpUT.s:173    .text:0000000000000120 .LFE22
+     /tmp/ccWXmpUT.s:2197   .debug_str:00000000000006e3 .LASF81
+     /tmp/ccWXmpUT.s:2125   .debug_str:00000000000003f0 .LASF82
+     /tmp/ccWXmpUT.s:2023   .debug_str:00000000000000d9 .LASF83
+     /tmp/ccWXmpUT.s:124    .text:00000000000000bc .LBB2
+     /tmp/ccWXmpUT.s:149    .text:00000000000000f4 .LBE2
+     /tmp/ccWXmpUT.s:1931   .debug_loc:0000000000000000 .LLST3
+     /tmp/ccWXmpUT.s:140    .text:00000000000000e8 .LVL11
+     /tmp/ccWXmpUT.s:2189   .debug_str:00000000000006a1 .LASF103
+     /tmp/ccWXmpUT.s:17     .text:0000000000000000 .LFB21
+     /tmp/ccWXmpUT.s:94     .text:0000000000000098 .LFE21
+     /tmp/ccWXmpUT.s:1943   .debug_loc:0000000000000037 .LLST0
+     /tmp/ccWXmpUT.s:2121   .debug_str:00000000000003dc .LASF84
+     /tmp/ccWXmpUT.s:1957   .debug_loc:0000000000000070 .LLST1
+     /tmp/ccWXmpUT.s:1964   .debug_loc:0000000000000093 .LLST2
+     /tmp/ccWXmpUT.s:52     .text:0000000000000038 .LVL4
+     /tmp/ccWXmpUT.s:59     .text:000000000000004c .LVL5
+     /tmp/ccWXmpUT.s:64     .text:000000000000005c .LVL6
+     /tmp/ccWXmpUT.s:2137   .debug_str:0000000000000439 .LASF85
+     /tmp/ccWXmpUT.s:2033   .debug_str:0000000000000124 .LASF87
+     /tmp/ccWXmpUT.s:2195   .debug_str:00000000000006d0 .LASF86
+     /tmp/ccWXmpUT.s:2153   .debug_str:00000000000004e4 .LASF88
+     /tmp/ccWXmpUT.s:2135   .debug_str:000000000000042a .LASF89
+     /tmp/ccWXmpUT.s:2057   .debug_str:00000000000001ed .LASF90
+     /tmp/ccWXmpUT.s:123    .text:00000000000000bc .LVL9
+     /tmp/ccWXmpUT.s:128    .text:00000000000000c4 .LVL10
+     /tmp/ccWXmpUT.s:168    .text:0000000000000118 .LVL13
+     /tmp/ccWXmpUT.s:21     .text:0000000000000000 .LVL0
+     /tmp/ccWXmpUT.s:41     .text:0000000000000020 .LVL2
+     /tmp/ccWXmpUT.s:37     .text:000000000000001c .LVL1
+     /tmp/ccWXmpUT.s:72     .text:0000000000000068 .LVL7
+     /tmp/ccWXmpUT.s:46     .text:0000000000000024 .LVL3
+     /tmp/ccWXmpUT.s:191    .debug_info:0000000000000000 .Ldebug_info0
+
+UNDEFINED SYMBOLS
+_Z11printStringPKc
+_Z8printIntiii
+_Z13thread_createPP3TCBPFvPvES2_

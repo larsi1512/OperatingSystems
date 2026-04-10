@@ -1,0 +1,1791 @@
+GAS LISTING /tmp/cc5tKurl.s 			page 1
+
+
+   1              		.file	"syscall_cpp.cpp"
+   2              		.option pic
+   3              		.option norelax
+   4              		.text
+   5              	.Ltext0:
+   6              		.section	.text._ZN6Thread3runEv,"axG",@progbits,_ZN6Thread3runEv,comdat
+   7              		.align	2
+   8              		.weak	_ZN6Thread3runEv
+  10              	_ZN6Thread3runEv:
+  11              	.LFB23:
+  12              		.file 1 "src/../h/syscall_cpp.hpp"
+   1:src/../h/syscall_cpp.hpp **** 
+   2:src/../h/syscall_cpp.hpp **** #ifndef PROJ_SYSCALL_CPP_HPP
+   3:src/../h/syscall_cpp.hpp **** #define PROJ_SYSCALL_CPP_HPP
+   4:src/../h/syscall_cpp.hpp **** 
+   5:src/../h/syscall_cpp.hpp **** #include "syscall_c.h"
+   6:src/../h/syscall_cpp.hpp **** #include "../lib/hw.h"
+   7:src/../h/syscall_cpp.hpp **** #include "../h/tcb.hpp"
+   8:src/../h/syscall_cpp.hpp **** #include "../h/print.hpp"
+   9:src/../h/syscall_cpp.hpp **** class TCB;
+  10:src/../h/syscall_cpp.hpp **** 
+  11:src/../h/syscall_cpp.hpp **** typedef TCB *thread_t;
+  12:src/../h/syscall_cpp.hpp **** class semaphore;
+  13:src/../h/syscall_cpp.hpp **** typedef semaphore* sem_t;
+  14:src/../h/syscall_cpp.hpp **** 
+  15:src/../h/syscall_cpp.hpp **** void *operator new[](size_t n);
+  16:src/../h/syscall_cpp.hpp **** void *operator new(size_t n);
+  17:src/../h/syscall_cpp.hpp **** void operator delete(void *addr) noexcept;
+  18:src/../h/syscall_cpp.hpp **** void operator delete[](void *addr) noexcept;
+  19:src/../h/syscall_cpp.hpp **** 
+  20:src/../h/syscall_cpp.hpp **** 
+  21:src/../h/syscall_cpp.hpp **** class Thread
+  22:src/../h/syscall_cpp.hpp **** {
+  23:src/../h/syscall_cpp.hpp **** public:
+  24:src/../h/syscall_cpp.hpp ****     Thread(void (*body)(void *), void *arg);
+  25:src/../h/syscall_cpp.hpp **** 
+  26:src/../h/syscall_cpp.hpp ****      virtual ~Thread ();
+  27:src/../h/syscall_cpp.hpp **** 
+  28:src/../h/syscall_cpp.hpp ****      int start ();
+  29:src/../h/syscall_cpp.hpp ****      void join();
+  30:src/../h/syscall_cpp.hpp **** 
+  31:src/../h/syscall_cpp.hpp ****      static void dispatch ();
+  32:src/../h/syscall_cpp.hpp **** 
+  33:src/../h/syscall_cpp.hpp ****      static int sleep (time_t);
+  34:src/../h/syscall_cpp.hpp **** 
+  35:src/../h/syscall_cpp.hpp ****     thread_t myHandle;
+  36:src/../h/syscall_cpp.hpp **** protected:
+  37:src/../h/syscall_cpp.hpp ****      Thread ();
+  38:src/../h/syscall_cpp.hpp ****      virtual void run () { }
+  13              		.loc 1 38 19
+  14              		.cfi_startproc
+  15              	.LVL0:
+  16 0000 130101FF 		addi	sp,sp,-16
+  17              		.cfi_def_cfa_offset 16
+  18 0004 23348100 		sd	s0,8(sp)
+  19              		.cfi_offset 8, -8
+  20 0008 13040101 		addi	s0,sp,16
+GAS LISTING /tmp/cc5tKurl.s 			page 2
+
+
+  21              		.cfi_def_cfa 8, 0
+  22              		.loc 1 38 28 is_stmt 0
+  23 000c 03348100 		ld	s0,8(sp)
+  24              		.cfi_restore 8
+  25              		.cfi_def_cfa 2, 16
+  26 0010 13010101 		addi	sp,sp,16
+  27              		.cfi_def_cfa_offset 0
+  28 0014 67800000 		jr	ra
+  29              		.cfi_endproc
+  30              	.LFE23:
+  32              		.section	.text._ZN6Thread7wrapperEPv,"axG",@progbits,_ZN6Thread7wrapperEPv,comdat
+  33              		.align	2
+  34              		.weak	_ZN6Thread7wrapperEPv
+  36              	_ZN6Thread7wrapperEPv:
+  37              	.LFB24:
+  39:src/../h/syscall_cpp.hpp ****  private:
+  40:src/../h/syscall_cpp.hpp ****     void (*body)(void*);
+  41:src/../h/syscall_cpp.hpp ****      void* arg;
+  42:src/../h/syscall_cpp.hpp ****      static void wrapper(void* args) {
+  38              		.loc 1 42 18 is_stmt 1
+  39              		.cfi_startproc
+  40              	.LVL1:
+  41 0000 130101FF 		addi	sp,sp,-16
+  42              		.cfi_def_cfa_offset 16
+  43 0004 23341100 		sd	ra,8(sp)
+  44 0008 23308100 		sd	s0,0(sp)
+  45              		.cfi_offset 1, -8
+  46              		.cfi_offset 8, -16
+  47 000c 13040101 		addi	s0,sp,16
+  48              		.cfi_def_cfa 8, 0
+  43:src/../h/syscall_cpp.hpp ****          Thread* thread = (Thread*) args;
+  49              		.loc 1 43 10
+  50              	.LVL2:
+  44:src/../h/syscall_cpp.hpp ****          thread->run();
+  51              		.loc 1 44 10
+  52              		.loc 1 44 22 is_stmt 0
+  53 0010 83370500 		ld	a5,0(a0)
+  54 0014 83B70701 		ld	a5,16(a5)
+  55              		.loc 1 44 21
+  56 0018 E7800700 		jalr	a5
+  57              	.LVL3:
+  45:src/../h/syscall_cpp.hpp ****      }
+  58              		.loc 1 45 6
+  59 001c 83308100 		ld	ra,8(sp)
+  60              		.cfi_restore 1
+  61 0020 03340100 		ld	s0,0(sp)
+  62              		.cfi_restore 8
+  63              		.cfi_def_cfa 2, 16
+  64 0024 13010101 		addi	sp,sp,16
+  65              		.cfi_def_cfa_offset 0
+  66 0028 67800000 		jr	ra
+  67              		.cfi_endproc
+  68              	.LFE24:
+  70              		.text
+  71              		.align	2
+  72              		.globl	_ZN9SemaphoreD2Ev
+  74              	_ZN9SemaphoreD2Ev:
+GAS LISTING /tmp/cc5tKurl.s 			page 3
+
+
+  75              	.LFB49:
+  76              		.file 2 "src/syscall_cpp.cpp"
+   1:src/syscall_cpp.cpp **** //
+   2:src/syscall_cpp.cpp **** // Created by os on 9/8/23.
+   3:src/syscall_cpp.cpp **** //
+   4:src/syscall_cpp.cpp **** 
+   5:src/syscall_cpp.cpp **** #include "../h/syscall_cpp.hpp"
+   6:src/syscall_cpp.cpp **** #include "../h/print.hpp"
+   7:src/syscall_cpp.cpp **** #include "../lib/hw.h"
+   8:src/syscall_cpp.cpp **** #include "../h/syscall_c.h"
+   9:src/syscall_cpp.cpp **** #include "../h/tcb.hpp"
+  10:src/syscall_cpp.cpp **** #include "../h/scheduler.hpp"
+  11:src/syscall_cpp.cpp **** 
+  12:src/syscall_cpp.cpp **** void *operator new[](size_t n) {
+  13:src/syscall_cpp.cpp ****     return (void*) mem_alloc(n);
+  14:src/syscall_cpp.cpp **** }
+  15:src/syscall_cpp.cpp **** 
+  16:src/syscall_cpp.cpp **** void *operator new(size_t n)
+  17:src/syscall_cpp.cpp **** {
+  18:src/syscall_cpp.cpp ****     return (void*) mem_alloc(n);
+  19:src/syscall_cpp.cpp **** }
+  20:src/syscall_cpp.cpp **** 
+  21:src/syscall_cpp.cpp **** void operator delete (void* addr)  noexcept
+  22:src/syscall_cpp.cpp **** {
+  23:src/syscall_cpp.cpp ****     mem_free(addr);
+  24:src/syscall_cpp.cpp **** }
+  25:src/syscall_cpp.cpp **** void operator delete[](void *addr) noexcept
+  26:src/syscall_cpp.cpp **** {
+  27:src/syscall_cpp.cpp ****     mem_free(addr);
+  28:src/syscall_cpp.cpp **** }
+  29:src/syscall_cpp.cpp **** 
+  30:src/syscall_cpp.cpp **** 
+  31:src/syscall_cpp.cpp **** 
+  32:src/syscall_cpp.cpp **** Thread::Thread(void (*body)(void *), void *arg)
+  33:src/syscall_cpp.cpp **** {
+  34:src/syscall_cpp.cpp ****     this->body = body;
+  35:src/syscall_cpp.cpp ****     this->arg = arg;
+  36:src/syscall_cpp.cpp ****     thread_create_not_start(&this->myHandle, body, arg);
+  37:src/syscall_cpp.cpp **** 
+  38:src/syscall_cpp.cpp **** }
+  39:src/syscall_cpp.cpp **** 
+  40:src/syscall_cpp.cpp **** Thread::Thread()
+  41:src/syscall_cpp.cpp **** {
+  42:src/syscall_cpp.cpp **** 
+  43:src/syscall_cpp.cpp ****     thread_create_not_start(&this->myHandle, wrapper, this);
+  44:src/syscall_cpp.cpp **** 
+  45:src/syscall_cpp.cpp **** }
+  46:src/syscall_cpp.cpp **** 
+  47:src/syscall_cpp.cpp **** int Thread::sleep(time_t)
+  48:src/syscall_cpp.cpp **** {
+  49:src/syscall_cpp.cpp ****     return 0;
+  50:src/syscall_cpp.cpp **** }
+  51:src/syscall_cpp.cpp **** 
+  52:src/syscall_cpp.cpp **** void Thread::dispatch()
+  53:src/syscall_cpp.cpp **** {
+  54:src/syscall_cpp.cpp ****     thread_dispatch();
+  55:src/syscall_cpp.cpp **** }
+GAS LISTING /tmp/cc5tKurl.s 			page 4
+
+
+  56:src/syscall_cpp.cpp **** 
+  57:src/syscall_cpp.cpp **** int Thread::start()
+  58:src/syscall_cpp.cpp **** {
+  59:src/syscall_cpp.cpp **** //    thread_start(&myHandle);
+  60:src/syscall_cpp.cpp **** 
+  61:src/syscall_cpp.cpp ****     Scheduler::put(myHandle);
+  62:src/syscall_cpp.cpp ****     return 0;
+  63:src/syscall_cpp.cpp **** }
+  64:src/syscall_cpp.cpp **** 
+  65:src/syscall_cpp.cpp **** void Thread::join()
+  66:src/syscall_cpp.cpp **** {
+  67:src/syscall_cpp.cpp ****     thread_join(myHandle);
+  68:src/syscall_cpp.cpp **** }
+  69:src/syscall_cpp.cpp **** 
+  70:src/syscall_cpp.cpp **** 
+  71:src/syscall_cpp.cpp **** Thread::~Thread()
+  72:src/syscall_cpp.cpp **** {
+  73:src/syscall_cpp.cpp ****     if (this->myHandle) {
+  74:src/syscall_cpp.cpp **** //        thread_exit();
+  75:src/syscall_cpp.cpp ****         delete &this->myHandle;
+  76:src/syscall_cpp.cpp ****     }
+  77:src/syscall_cpp.cpp **** }
+  78:src/syscall_cpp.cpp **** Semaphore::Semaphore (unsigned int init) {
+  79:src/syscall_cpp.cpp ****     sem_open(&myHandle, init);
+  80:src/syscall_cpp.cpp **** }
+  81:src/syscall_cpp.cpp **** 
+  82:src/syscall_cpp.cpp **** int Semaphore::wait () {
+  83:src/syscall_cpp.cpp ****     sem_wait(myHandle);
+  84:src/syscall_cpp.cpp ****     return 0;
+  85:src/syscall_cpp.cpp **** }
+  86:src/syscall_cpp.cpp **** 
+  87:src/syscall_cpp.cpp **** int Semaphore::signal() {
+  88:src/syscall_cpp.cpp ****     sem_signal(myHandle);
+  89:src/syscall_cpp.cpp ****     return 0;
+  90:src/syscall_cpp.cpp **** }
+  91:src/syscall_cpp.cpp **** Semaphore::~Semaphore () {
+  77              		.loc 2 91 1 is_stmt 1
+  78              		.cfi_startproc
+  79              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+  80              		.cfi_lsda 0x1b,.LLSDA49
+  81              	.LVL4:
+  82 0000 130101FF 		addi	sp,sp,-16
+  83              		.cfi_def_cfa_offset 16
+  84 0004 23341100 		sd	ra,8(sp)
+  85 0008 23308100 		sd	s0,0(sp)
+  86              		.cfi_offset 1, -8
+  87              		.cfi_offset 8, -16
+  88 000c 13040101 		addi	s0,sp,16
+  89              		.cfi_def_cfa 8, 0
+  90              	.LBB2:
+  91              		.loc 2 91 24 is_stmt 0
+  92 0010 97070000 		lla	a5,_ZTV9Semaphore+16
+  92      93870700 
+  93 0018 2330F500 		sd	a5,0(a0)
+  92:src/syscall_cpp.cpp ****     sem_close(myHandle);
+  94              		.loc 2 92 5 is_stmt 1
+  95              		.loc 2 92 14 is_stmt 0
+GAS LISTING /tmp/cc5tKurl.s 			page 5
+
+
+  96 001c 03358500 		ld	a0,8(a0)
+  97              	.LVL5:
+  98 0020 97000000 		call	_Z9sem_closeP9semaphore@plt
+  98      E7800000 
+  99              	.LVL6:
+ 100              	.LBE2:
+  93:src/syscall_cpp.cpp **** }
+ 101              		.loc 2 93 1
+ 102 0028 83308100 		ld	ra,8(sp)
+ 103              		.cfi_restore 1
+ 104 002c 03340100 		ld	s0,0(sp)
+ 105              		.cfi_restore 8
+ 106              		.cfi_def_cfa 2, 16
+ 107 0030 13010101 		addi	sp,sp,16
+ 108              		.cfi_def_cfa_offset 0
+ 109 0034 67800000 		jr	ra
+ 110              		.cfi_endproc
+ 111              	.LFE49:
+ 112              		.globl	__gxx_personality_v0
+ 113              		.section	.gcc_except_table,"a",@progbits
+ 114              	.LLSDA49:
+ 115 0000 FF       		.byte	0xff
+ 116 0001 FF       		.byte	0xff
+ 117 0002 03       		.byte	0x3
+ 118 0003 00       		.byte	0
+ 119              		.text
+ 121              		.globl	_ZN9SemaphoreD1Ev
+ 122              		.set	_ZN9SemaphoreD1Ev,_ZN9SemaphoreD2Ev
+ 123              		.align	2
+ 124              		.globl	_Znam
+ 126              	_Znam:
+ 127              	.LFB25:
+  12:src/syscall_cpp.cpp ****     return (void*) mem_alloc(n);
+ 128              		.loc 2 12 32 is_stmt 1
+ 129              		.cfi_startproc
+ 130              	.LVL7:
+ 131 0038 130101FF 		addi	sp,sp,-16
+ 132              		.cfi_def_cfa_offset 16
+ 133 003c 23341100 		sd	ra,8(sp)
+ 134 0040 23308100 		sd	s0,0(sp)
+ 135              		.cfi_offset 1, -8
+ 136              		.cfi_offset 8, -16
+ 137 0044 13040101 		addi	s0,sp,16
+ 138              		.cfi_def_cfa 8, 0
+  13:src/syscall_cpp.cpp **** }
+ 139              		.loc 2 13 5
+  13:src/syscall_cpp.cpp **** }
+ 140              		.loc 2 13 29 is_stmt 0
+ 141 0048 97000000 		call	_Z9mem_allocm@plt
+ 141      E7800000 
+ 142              	.LVL8:
+  14:src/syscall_cpp.cpp **** 
+ 143              		.loc 2 14 1
+ 144 0050 83308100 		ld	ra,8(sp)
+ 145              		.cfi_restore 1
+ 146 0054 03340100 		ld	s0,0(sp)
+ 147              		.cfi_restore 8
+GAS LISTING /tmp/cc5tKurl.s 			page 6
+
+
+ 148              		.cfi_def_cfa 2, 16
+ 149 0058 13010101 		addi	sp,sp,16
+ 150              		.cfi_def_cfa_offset 0
+ 151 005c 67800000 		jr	ra
+ 152              		.cfi_endproc
+ 153              	.LFE25:
+ 155              		.align	2
+ 156              		.globl	_Znwm
+ 158              	_Znwm:
+ 159              	.LFB26:
+  17:src/syscall_cpp.cpp ****     return (void*) mem_alloc(n);
+ 160              		.loc 2 17 1 is_stmt 1
+ 161              		.cfi_startproc
+ 162              	.LVL9:
+ 163 0060 130101FF 		addi	sp,sp,-16
+ 164              		.cfi_def_cfa_offset 16
+ 165 0064 23341100 		sd	ra,8(sp)
+ 166 0068 23308100 		sd	s0,0(sp)
+ 167              		.cfi_offset 1, -8
+ 168              		.cfi_offset 8, -16
+ 169 006c 13040101 		addi	s0,sp,16
+ 170              		.cfi_def_cfa 8, 0
+  18:src/syscall_cpp.cpp **** }
+ 171              		.loc 2 18 5
+  18:src/syscall_cpp.cpp **** }
+ 172              		.loc 2 18 29 is_stmt 0
+ 173 0070 97000000 		call	_Z9mem_allocm@plt
+ 173      E7800000 
+ 174              	.LVL10:
+  19:src/syscall_cpp.cpp **** 
+ 175              		.loc 2 19 1
+ 176 0078 83308100 		ld	ra,8(sp)
+ 177              		.cfi_restore 1
+ 178 007c 03340100 		ld	s0,0(sp)
+ 179              		.cfi_restore 8
+ 180              		.cfi_def_cfa 2, 16
+ 181 0080 13010101 		addi	sp,sp,16
+ 182              		.cfi_def_cfa_offset 0
+ 183 0084 67800000 		jr	ra
+ 184              		.cfi_endproc
+ 185              	.LFE26:
+ 187              		.align	2
+ 188              		.globl	_ZdlPv
+ 190              	_ZdlPv:
+ 191              	.LFB27:
+  22:src/syscall_cpp.cpp ****     mem_free(addr);
+ 192              		.loc 2 22 1 is_stmt 1
+ 193              		.cfi_startproc
+ 194              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+ 195              		.cfi_lsda 0x1b,.LLSDA27
+ 196              	.LVL11:
+ 197 0088 130101FF 		addi	sp,sp,-16
+ 198              		.cfi_def_cfa_offset 16
+ 199 008c 23341100 		sd	ra,8(sp)
+ 200 0090 23308100 		sd	s0,0(sp)
+ 201              		.cfi_offset 1, -8
+ 202              		.cfi_offset 8, -16
+GAS LISTING /tmp/cc5tKurl.s 			page 7
+
+
+ 203 0094 13040101 		addi	s0,sp,16
+ 204              		.cfi_def_cfa 8, 0
+  23:src/syscall_cpp.cpp **** }
+ 205              		.loc 2 23 5
+  23:src/syscall_cpp.cpp **** }
+ 206              		.loc 2 23 13 is_stmt 0
+ 207 0098 97000000 		call	_Z8mem_freePv@plt
+ 207      E7800000 
+ 208              	.LVL12:
+  24:src/syscall_cpp.cpp **** void operator delete[](void *addr) noexcept
+ 209              		.loc 2 24 1
+ 210 00a0 83308100 		ld	ra,8(sp)
+ 211              		.cfi_restore 1
+ 212 00a4 03340100 		ld	s0,0(sp)
+ 213              		.cfi_restore 8
+ 214              		.cfi_def_cfa 2, 16
+ 215 00a8 13010101 		addi	sp,sp,16
+ 216              		.cfi_def_cfa_offset 0
+ 217 00ac 67800000 		jr	ra
+ 218              		.cfi_endproc
+ 219              	.LFE27:
+ 220              		.section	.gcc_except_table
+ 221              	.LLSDA27:
+ 222 0004 FF       		.byte	0xff
+ 223 0005 FF       		.byte	0xff
+ 224 0006 03       		.byte	0x3
+ 225 0007 00       		.byte	0
+ 226              		.text
+ 228              		.align	2
+ 229              		.globl	_ZN6ThreadD2Ev
+ 231              	_ZN6ThreadD2Ev:
+ 232              	.LFB40:
+  71:src/syscall_cpp.cpp **** {
+ 233              		.loc 2 71 1 is_stmt 1
+ 234              		.cfi_startproc
+ 235              	.LVL13:
+ 236              	.LBB3:
+  71:src/syscall_cpp.cpp **** {
+ 237              		.loc 2 71 17 is_stmt 0
+ 238 00b0 97070000 		lla	a5,_ZTV6Thread+16
+ 238      93870700 
+ 239 00b8 2330F500 		sd	a5,0(a0)
+  73:src/syscall_cpp.cpp **** //        thread_exit();
+ 240              		.loc 2 73 5 is_stmt 1
+  73:src/syscall_cpp.cpp **** //        thread_exit();
+ 241              		.loc 2 73 15 is_stmt 0
+ 242 00bc 83378500 		ld	a5,8(a0)
+  73:src/syscall_cpp.cpp **** //        thread_exit();
+ 243              		.loc 2 73 5
+ 244 00c0 638A0702 		beqz	a5,.L16
+  75:src/syscall_cpp.cpp ****     }
+ 245              		.loc 2 75 9 is_stmt 1
+  75:src/syscall_cpp.cpp ****     }
+ 246              		.loc 2 75 16 is_stmt 0
+ 247 00c4 13058500 		addi	a0,a0,8
+ 248              	.LVL14:
+  75:src/syscall_cpp.cpp ****     }
+GAS LISTING /tmp/cc5tKurl.s 			page 8
+
+
+ 249              		.loc 2 75 31
+ 250 00c8 63060502 		beqz	a0,.L16
+ 251              	.LBE3:
+  71:src/syscall_cpp.cpp **** {
+ 252              		.loc 2 71 1 discriminator 1
+ 253 00cc 130101FF 		addi	sp,sp,-16
+ 254              		.cfi_def_cfa_offset 16
+ 255 00d0 23341100 		sd	ra,8(sp)
+ 256 00d4 23308100 		sd	s0,0(sp)
+ 257              		.cfi_offset 1, -8
+ 258              		.cfi_offset 8, -16
+ 259 00d8 13040101 		addi	s0,sp,16
+ 260              		.cfi_def_cfa 8, 0
+ 261              	.LBB4:
+  75:src/syscall_cpp.cpp ****     }
+ 262              		.loc 2 75 23 discriminator 1
+ 263 00dc 97000000 		call	_ZdlPv
+ 263      E7800000 
+ 264              	.LVL15:
+ 265              	.LBE4:
+  77:src/syscall_cpp.cpp **** Semaphore::Semaphore (unsigned int init) {
+ 266              		.loc 2 77 1 discriminator 1
+ 267 00e4 83308100 		ld	ra,8(sp)
+ 268              		.cfi_restore 1
+ 269 00e8 03340100 		ld	s0,0(sp)
+ 270              		.cfi_restore 8
+ 271              		.cfi_def_cfa 2, 16
+ 272 00ec 13010101 		addi	sp,sp,16
+ 273              		.cfi_def_cfa_offset 0
+ 274 00f0 67800000 		jr	ra
+ 275              	.L16:
+ 276 00f4 67800000 		ret
+ 277              		.cfi_endproc
+ 278              	.LFE40:
+ 280              		.globl	_ZN6ThreadD1Ev
+ 281              		.set	_ZN6ThreadD1Ev,_ZN6ThreadD2Ev
+ 282              		.align	2
+ 283              		.globl	_ZN6ThreadD0Ev
+ 285              	_ZN6ThreadD0Ev:
+ 286              	.LFB42:
+  71:src/syscall_cpp.cpp **** {
+ 287              		.loc 2 71 1 is_stmt 1
+ 288              		.cfi_startproc
+ 289              	.LVL16:
+ 290 00f8 130101FE 		addi	sp,sp,-32
+ 291              		.cfi_def_cfa_offset 32
+ 292 00fc 233C1100 		sd	ra,24(sp)
+ 293 0100 23388100 		sd	s0,16(sp)
+ 294 0104 23349100 		sd	s1,8(sp)
+ 295              		.cfi_offset 1, -8
+ 296              		.cfi_offset 8, -16
+ 297              		.cfi_offset 9, -24
+ 298 0108 13040102 		addi	s0,sp,32
+ 299              		.cfi_def_cfa 8, 0
+ 300 010c 93040500 		mv	s1,a0
+  77:src/syscall_cpp.cpp **** Semaphore::Semaphore (unsigned int init) {
+ 301              		.loc 2 77 1 is_stmt 0
+GAS LISTING /tmp/cc5tKurl.s 			page 9
+
+
+ 302 0110 97000000 		call	_ZN6ThreadD1Ev
+ 302      E7800000 
+ 303              	.LVL17:
+ 304 0118 13850400 		mv	a0,s1
+ 305 011c 97000000 		call	_ZdlPv
+ 305      E7800000 
+ 306              	.LVL18:
+ 307 0124 83308101 		ld	ra,24(sp)
+ 308              		.cfi_restore 1
+ 309 0128 03340101 		ld	s0,16(sp)
+ 310              		.cfi_restore 8
+ 311              		.cfi_def_cfa 2, 32
+ 312 012c 83348100 		ld	s1,8(sp)
+ 313              		.cfi_restore 9
+ 314              	.LVL19:
+ 315 0130 13010102 		addi	sp,sp,32
+ 316              		.cfi_def_cfa_offset 0
+ 317 0134 67800000 		jr	ra
+ 318              		.cfi_endproc
+ 319              	.LFE42:
+ 321              		.align	2
+ 322              		.globl	_ZN9SemaphoreD0Ev
+ 324              	_ZN9SemaphoreD0Ev:
+ 325              	.LFB51:
+  91:src/syscall_cpp.cpp ****     sem_close(myHandle);
+ 326              		.loc 2 91 1 is_stmt 1
+ 327              		.cfi_startproc
+ 328              	.LVL20:
+ 329 0138 130101FE 		addi	sp,sp,-32
+ 330              		.cfi_def_cfa_offset 32
+ 331 013c 233C1100 		sd	ra,24(sp)
+ 332 0140 23388100 		sd	s0,16(sp)
+ 333 0144 23349100 		sd	s1,8(sp)
+ 334              		.cfi_offset 1, -8
+ 335              		.cfi_offset 8, -16
+ 336              		.cfi_offset 9, -24
+ 337 0148 13040102 		addi	s0,sp,32
+ 338              		.cfi_def_cfa 8, 0
+ 339 014c 93040500 		mv	s1,a0
+ 340              		.loc 2 93 1 is_stmt 0
+ 341 0150 97000000 		call	_ZN9SemaphoreD1Ev
+ 341      E7800000 
+ 342              	.LVL21:
+ 343 0158 13850400 		mv	a0,s1
+ 344 015c 97000000 		call	_ZdlPv
+ 344      E7800000 
+ 345              	.LVL22:
+ 346 0164 83308101 		ld	ra,24(sp)
+ 347              		.cfi_restore 1
+ 348 0168 03340101 		ld	s0,16(sp)
+ 349              		.cfi_restore 8
+ 350              		.cfi_def_cfa 2, 32
+ 351 016c 83348100 		ld	s1,8(sp)
+ 352              		.cfi_restore 9
+ 353              	.LVL23:
+ 354 0170 13010102 		addi	sp,sp,32
+ 355              		.cfi_def_cfa_offset 0
+GAS LISTING /tmp/cc5tKurl.s 			page 10
+
+
+ 356 0174 67800000 		jr	ra
+ 357              		.cfi_endproc
+ 358              	.LFE51:
+ 360              		.align	2
+ 361              		.globl	_ZdaPv
+ 363              	_ZdaPv:
+ 364              	.LFB28:
+  26:src/syscall_cpp.cpp ****     mem_free(addr);
+ 365              		.loc 2 26 1 is_stmt 1
+ 366              		.cfi_startproc
+ 367              		.cfi_personality 0x9b,DW.ref.__gxx_personality_v0
+ 368              		.cfi_lsda 0x1b,.LLSDA28
+ 369              	.LVL24:
+ 370 0178 130101FF 		addi	sp,sp,-16
+ 371              		.cfi_def_cfa_offset 16
+ 372 017c 23341100 		sd	ra,8(sp)
+ 373 0180 23308100 		sd	s0,0(sp)
+ 374              		.cfi_offset 1, -8
+ 375              		.cfi_offset 8, -16
+ 376 0184 13040101 		addi	s0,sp,16
+ 377              		.cfi_def_cfa 8, 0
+  27:src/syscall_cpp.cpp **** }
+ 378              		.loc 2 27 5
+  27:src/syscall_cpp.cpp **** }
+ 379              		.loc 2 27 13 is_stmt 0
+ 380 0188 97000000 		call	_Z8mem_freePv@plt
+ 380      E7800000 
+ 381              	.LVL25:
+  28:src/syscall_cpp.cpp **** 
+ 382              		.loc 2 28 1
+ 383 0190 83308100 		ld	ra,8(sp)
+ 384              		.cfi_restore 1
+ 385 0194 03340100 		ld	s0,0(sp)
+ 386              		.cfi_restore 8
+ 387              		.cfi_def_cfa 2, 16
+ 388 0198 13010101 		addi	sp,sp,16
+ 389              		.cfi_def_cfa_offset 0
+ 390 019c 67800000 		jr	ra
+ 391              		.cfi_endproc
+ 392              	.LFE28:
+ 393              		.section	.gcc_except_table
+ 394              	.LLSDA28:
+ 395 0008 FF       		.byte	0xff
+ 396 0009 FF       		.byte	0xff
+ 397 000a 03       		.byte	0x3
+ 398 000b 00       		.byte	0
+ 399              		.text
+ 401              		.align	2
+ 402              		.globl	_ZN6ThreadC2EPFvPvES0_
+ 404              	_ZN6ThreadC2EPFvPvES0_:
+ 405              	.LFB30:
+  32:src/syscall_cpp.cpp **** {
+ 406              		.loc 2 32 1 is_stmt 1
+ 407              		.cfi_startproc
+ 408              	.LVL26:
+ 409 01a0 130101FF 		addi	sp,sp,-16
+ 410              		.cfi_def_cfa_offset 16
+GAS LISTING /tmp/cc5tKurl.s 			page 11
+
+
+ 411 01a4 23341100 		sd	ra,8(sp)
+ 412 01a8 23308100 		sd	s0,0(sp)
+ 413              		.cfi_offset 1, -8
+ 414              		.cfi_offset 8, -16
+ 415 01ac 13040101 		addi	s0,sp,16
+ 416              		.cfi_def_cfa 8, 0
+ 417              	.LBB5:
+  32:src/syscall_cpp.cpp **** {
+ 418              		.loc 2 32 47 is_stmt 0
+ 419 01b0 97070000 		lla	a5,_ZTV6Thread+16
+ 419      93870700 
+ 420 01b8 2330F500 		sd	a5,0(a0)
+  34:src/syscall_cpp.cpp ****     this->arg = arg;
+ 421              		.loc 2 34 5 is_stmt 1
+  34:src/syscall_cpp.cpp ****     this->arg = arg;
+ 422              		.loc 2 34 16 is_stmt 0
+ 423 01bc 2338B500 		sd	a1,16(a0)
+  35:src/syscall_cpp.cpp ****     thread_create_not_start(&this->myHandle, body, arg);
+ 424              		.loc 2 35 5 is_stmt 1
+  35:src/syscall_cpp.cpp ****     thread_create_not_start(&this->myHandle, body, arg);
+ 425              		.loc 2 35 15 is_stmt 0
+ 426 01c0 233CC500 		sd	a2,24(a0)
+  36:src/syscall_cpp.cpp **** 
+ 427              		.loc 2 36 5 is_stmt 1
+  36:src/syscall_cpp.cpp **** 
+ 428              		.loc 2 36 28 is_stmt 0
+ 429 01c4 13058500 		addi	a0,a0,8
+ 430              	.LVL27:
+ 431 01c8 97000000 		call	_Z23thread_create_not_startPP3TCBPFvPvES2_@plt
+ 431      E7800000 
+ 432              	.LVL28:
+ 433              	.LBE5:
+  38:src/syscall_cpp.cpp **** 
+ 434              		.loc 2 38 1
+ 435 01d0 83308100 		ld	ra,8(sp)
+ 436              		.cfi_restore 1
+ 437 01d4 03340100 		ld	s0,0(sp)
+ 438              		.cfi_restore 8
+ 439              		.cfi_def_cfa 2, 16
+ 440 01d8 13010101 		addi	sp,sp,16
+ 441              		.cfi_def_cfa_offset 0
+ 442 01dc 67800000 		jr	ra
+ 443              		.cfi_endproc
+ 444              	.LFE30:
+ 446              		.globl	_ZN6ThreadC1EPFvPvES0_
+ 447              		.set	_ZN6ThreadC1EPFvPvES0_,_ZN6ThreadC2EPFvPvES0_
+ 448              		.align	2
+ 449              		.globl	_ZN6ThreadC2Ev
+ 451              	_ZN6ThreadC2Ev:
+ 452              	.LFB33:
+  40:src/syscall_cpp.cpp **** {
+ 453              		.loc 2 40 1 is_stmt 1
+ 454              		.cfi_startproc
+ 455              	.LVL29:
+ 456 01e0 130101FF 		addi	sp,sp,-16
+ 457              		.cfi_def_cfa_offset 16
+ 458 01e4 23341100 		sd	ra,8(sp)
+GAS LISTING /tmp/cc5tKurl.s 			page 12
+
+
+ 459 01e8 23308100 		sd	s0,0(sp)
+ 460              		.cfi_offset 1, -8
+ 461              		.cfi_offset 8, -16
+ 462 01ec 13040101 		addi	s0,sp,16
+ 463              		.cfi_def_cfa 8, 0
+ 464              	.LBB6:
+  40:src/syscall_cpp.cpp **** {
+ 465              		.loc 2 40 16 is_stmt 0
+ 466 01f0 97070000 		lla	a5,_ZTV6Thread+16
+ 466      93870700 
+ 467 01f8 2330F500 		sd	a5,0(a0)
+  43:src/syscall_cpp.cpp **** 
+ 468              		.loc 2 43 5 is_stmt 1
+  43:src/syscall_cpp.cpp **** 
+ 469              		.loc 2 43 28 is_stmt 0
+ 470 01fc 13060500 		mv	a2,a0
+ 471 0200 97050000 		lla	a1,_ZN6Thread7wrapperEPv
+ 471      93850500 
+ 472 0208 13058500 		addi	a0,a0,8
+ 473              	.LVL30:
+ 474 020c 97000000 		call	_Z23thread_create_not_startPP3TCBPFvPvES2_@plt
+ 474      E7800000 
+ 475              	.LVL31:
+ 476              	.LBE6:
+  45:src/syscall_cpp.cpp **** 
+ 477              		.loc 2 45 1
+ 478 0214 83308100 		ld	ra,8(sp)
+ 479              		.cfi_restore 1
+ 480 0218 03340100 		ld	s0,0(sp)
+ 481              		.cfi_restore 8
+ 482              		.cfi_def_cfa 2, 16
+ 483 021c 13010101 		addi	sp,sp,16
+ 484              		.cfi_def_cfa_offset 0
+ 485 0220 67800000 		jr	ra
+ 486              		.cfi_endproc
+ 487              	.LFE33:
+ 489              		.globl	_ZN6ThreadC1Ev
+ 490              		.set	_ZN6ThreadC1Ev,_ZN6ThreadC2Ev
+ 491              		.align	2
+ 492              		.globl	_ZN6Thread5sleepEm
+ 494              	_ZN6Thread5sleepEm:
+ 495              	.LFB35:
+  48:src/syscall_cpp.cpp ****     return 0;
+ 496              		.loc 2 48 1 is_stmt 1
+ 497              		.cfi_startproc
+ 498 0224 130101FF 		addi	sp,sp,-16
+ 499              		.cfi_def_cfa_offset 16
+ 500 0228 23348100 		sd	s0,8(sp)
+ 501              		.cfi_offset 8, -8
+ 502 022c 13040101 		addi	s0,sp,16
+ 503              		.cfi_def_cfa 8, 0
+  49:src/syscall_cpp.cpp **** }
+ 504              		.loc 2 49 5
+  50:src/syscall_cpp.cpp **** 
+ 505              		.loc 2 50 1 is_stmt 0
+ 506 0230 13050000 		li	a0,0
+ 507 0234 03348100 		ld	s0,8(sp)
+GAS LISTING /tmp/cc5tKurl.s 			page 13
+
+
+ 508              		.cfi_restore 8
+ 509              		.cfi_def_cfa 2, 16
+ 510 0238 13010101 		addi	sp,sp,16
+ 511              		.cfi_def_cfa_offset 0
+ 512 023c 67800000 		jr	ra
+ 513              		.cfi_endproc
+ 514              	.LFE35:
+ 516              		.align	2
+ 517              		.globl	_ZN6Thread8dispatchEv
+ 519              	_ZN6Thread8dispatchEv:
+ 520              	.LFB36:
+  53:src/syscall_cpp.cpp ****     thread_dispatch();
+ 521              		.loc 2 53 1 is_stmt 1
+ 522              		.cfi_startproc
+ 523 0240 130101FF 		addi	sp,sp,-16
+ 524              		.cfi_def_cfa_offset 16
+ 525 0244 23341100 		sd	ra,8(sp)
+ 526 0248 23308100 		sd	s0,0(sp)
+ 527              		.cfi_offset 1, -8
+ 528              		.cfi_offset 8, -16
+ 529 024c 13040101 		addi	s0,sp,16
+ 530              		.cfi_def_cfa 8, 0
+  54:src/syscall_cpp.cpp **** }
+ 531              		.loc 2 54 5
+  54:src/syscall_cpp.cpp **** }
+ 532              		.loc 2 54 20 is_stmt 0
+ 533 0250 97000000 		call	_Z15thread_dispatchv@plt
+ 533      E7800000 
+ 534              	.LVL32:
+  55:src/syscall_cpp.cpp **** 
+ 535              		.loc 2 55 1
+ 536 0258 83308100 		ld	ra,8(sp)
+ 537              		.cfi_restore 1
+ 538 025c 03340100 		ld	s0,0(sp)
+ 539              		.cfi_restore 8
+ 540              		.cfi_def_cfa 2, 16
+ 541 0260 13010101 		addi	sp,sp,16
+ 542              		.cfi_def_cfa_offset 0
+ 543 0264 67800000 		jr	ra
+ 544              		.cfi_endproc
+ 545              	.LFE36:
+ 547              		.align	2
+ 548              		.globl	_ZN6Thread5startEv
+ 550              	_ZN6Thread5startEv:
+ 551              	.LFB37:
+  58:src/syscall_cpp.cpp **** //    thread_start(&myHandle);
+ 552              		.loc 2 58 1 is_stmt 1
+ 553              		.cfi_startproc
+ 554              	.LVL33:
+ 555 0268 130101FF 		addi	sp,sp,-16
+ 556              		.cfi_def_cfa_offset 16
+ 557 026c 23341100 		sd	ra,8(sp)
+ 558 0270 23308100 		sd	s0,0(sp)
+ 559              		.cfi_offset 1, -8
+ 560              		.cfi_offset 8, -16
+ 561 0274 13040101 		addi	s0,sp,16
+ 562              		.cfi_def_cfa 8, 0
+GAS LISTING /tmp/cc5tKurl.s 			page 14
+
+
+  61:src/syscall_cpp.cpp ****     return 0;
+ 563              		.loc 2 61 5
+  61:src/syscall_cpp.cpp ****     return 0;
+ 564              		.loc 2 61 19 is_stmt 0
+ 565 0278 03358500 		ld	a0,8(a0)
+ 566              	.LVL34:
+ 567 027c 97000000 		call	_ZN9Scheduler3putEP3TCB@plt
+ 567      E7800000 
+ 568              	.LVL35:
+  62:src/syscall_cpp.cpp **** }
+ 569              		.loc 2 62 5 is_stmt 1
+  63:src/syscall_cpp.cpp **** 
+ 570              		.loc 2 63 1 is_stmt 0
+ 571 0284 13050000 		li	a0,0
+ 572 0288 83308100 		ld	ra,8(sp)
+ 573              		.cfi_restore 1
+ 574 028c 03340100 		ld	s0,0(sp)
+ 575              		.cfi_restore 8
+ 576              		.cfi_def_cfa 2, 16
+ 577 0290 13010101 		addi	sp,sp,16
+ 578              		.cfi_def_cfa_offset 0
+ 579 0294 67800000 		jr	ra
+ 580              		.cfi_endproc
+ 581              	.LFE37:
+ 583              		.align	2
+ 584              		.globl	_ZN6Thread4joinEv
+ 586              	_ZN6Thread4joinEv:
+ 587              	.LFB38:
+  66:src/syscall_cpp.cpp ****     thread_join(myHandle);
+ 588              		.loc 2 66 1 is_stmt 1
+ 589              		.cfi_startproc
+ 590              	.LVL36:
+ 591 0298 130101FF 		addi	sp,sp,-16
+ 592              		.cfi_def_cfa_offset 16
+ 593 029c 23341100 		sd	ra,8(sp)
+ 594 02a0 23308100 		sd	s0,0(sp)
+ 595              		.cfi_offset 1, -8
+ 596              		.cfi_offset 8, -16
+ 597 02a4 13040101 		addi	s0,sp,16
+ 598              		.cfi_def_cfa 8, 0
+  67:src/syscall_cpp.cpp **** }
+ 599              		.loc 2 67 5
+  67:src/syscall_cpp.cpp **** }
+ 600              		.loc 2 67 16 is_stmt 0
+ 601 02a8 03358500 		ld	a0,8(a0)
+ 602              	.LVL37:
+ 603 02ac 97000000 		call	_Z11thread_joinP3TCB@plt
+ 603      E7800000 
+ 604              	.LVL38:
+  68:src/syscall_cpp.cpp **** 
+ 605              		.loc 2 68 1
+ 606 02b4 83308100 		ld	ra,8(sp)
+ 607              		.cfi_restore 1
+ 608 02b8 03340100 		ld	s0,0(sp)
+ 609              		.cfi_restore 8
+ 610              		.cfi_def_cfa 2, 16
+ 611 02bc 13010101 		addi	sp,sp,16
+GAS LISTING /tmp/cc5tKurl.s 			page 15
+
+
+ 612              		.cfi_def_cfa_offset 0
+ 613 02c0 67800000 		jr	ra
+ 614              		.cfi_endproc
+ 615              	.LFE38:
+ 617              		.align	2
+ 618              		.globl	_ZN9SemaphoreC2Ej
+ 620              	_ZN9SemaphoreC2Ej:
+ 621              	.LFB44:
+  78:src/syscall_cpp.cpp ****     sem_open(&myHandle, init);
+ 622              		.loc 2 78 1 is_stmt 1
+ 623              		.cfi_startproc
+ 624              	.LVL39:
+ 625 02c4 130101FF 		addi	sp,sp,-16
+ 626              		.cfi_def_cfa_offset 16
+ 627 02c8 23341100 		sd	ra,8(sp)
+ 628 02cc 23308100 		sd	s0,0(sp)
+ 629              		.cfi_offset 1, -8
+ 630              		.cfi_offset 8, -16
+ 631 02d0 13040101 		addi	s0,sp,16
+ 632              		.cfi_def_cfa 8, 0
+ 633              	.LBB7:
+  78:src/syscall_cpp.cpp ****     sem_open(&myHandle, init);
+ 634              		.loc 2 78 40 is_stmt 0
+ 635 02d4 97070000 		lla	a5,_ZTV9Semaphore+16
+ 635      93870700 
+ 636 02dc 2330F500 		sd	a5,0(a0)
+  79:src/syscall_cpp.cpp **** }
+ 637              		.loc 2 79 5 is_stmt 1
+  79:src/syscall_cpp.cpp **** }
+ 638              		.loc 2 79 13 is_stmt 0
+ 639 02e0 13058500 		addi	a0,a0,8
+ 640              	.LVL40:
+ 641 02e4 97000000 		call	_Z8sem_openPP9semaphorej@plt
+ 641      E7800000 
+ 642              	.LVL41:
+ 643              	.LBE7:
+  80:src/syscall_cpp.cpp **** 
+ 644              		.loc 2 80 1
+ 645 02ec 83308100 		ld	ra,8(sp)
+ 646              		.cfi_restore 1
+ 647 02f0 03340100 		ld	s0,0(sp)
+ 648              		.cfi_restore 8
+ 649              		.cfi_def_cfa 2, 16
+ 650 02f4 13010101 		addi	sp,sp,16
+ 651              		.cfi_def_cfa_offset 0
+ 652 02f8 67800000 		jr	ra
+ 653              		.cfi_endproc
+ 654              	.LFE44:
+ 656              		.globl	_ZN9SemaphoreC1Ej
+ 657              		.set	_ZN9SemaphoreC1Ej,_ZN9SemaphoreC2Ej
+ 658              		.align	2
+ 659              		.globl	_ZN9Semaphore4waitEv
+ 661              	_ZN9Semaphore4waitEv:
+ 662              	.LFB46:
+  82:src/syscall_cpp.cpp ****     sem_wait(myHandle);
+ 663              		.loc 2 82 24 is_stmt 1
+ 664              		.cfi_startproc
+GAS LISTING /tmp/cc5tKurl.s 			page 16
+
+
+ 665              	.LVL42:
+ 666 02fc 130101FF 		addi	sp,sp,-16
+ 667              		.cfi_def_cfa_offset 16
+ 668 0300 23341100 		sd	ra,8(sp)
+ 669 0304 23308100 		sd	s0,0(sp)
+ 670              		.cfi_offset 1, -8
+ 671              		.cfi_offset 8, -16
+ 672 0308 13040101 		addi	s0,sp,16
+ 673              		.cfi_def_cfa 8, 0
+  83:src/syscall_cpp.cpp ****     return 0;
+ 674              		.loc 2 83 5
+  83:src/syscall_cpp.cpp ****     return 0;
+ 675              		.loc 2 83 13 is_stmt 0
+ 676 030c 03358500 		ld	a0,8(a0)
+ 677              	.LVL43:
+ 678 0310 97000000 		call	_Z8sem_waitP9semaphore@plt
+ 678      E7800000 
+ 679              	.LVL44:
+  84:src/syscall_cpp.cpp **** }
+ 680              		.loc 2 84 5 is_stmt 1
+  85:src/syscall_cpp.cpp **** 
+ 681              		.loc 2 85 1 is_stmt 0
+ 682 0318 13050000 		li	a0,0
+ 683 031c 83308100 		ld	ra,8(sp)
+ 684              		.cfi_restore 1
+ 685 0320 03340100 		ld	s0,0(sp)
+ 686              		.cfi_restore 8
+ 687              		.cfi_def_cfa 2, 16
+ 688 0324 13010101 		addi	sp,sp,16
+ 689              		.cfi_def_cfa_offset 0
+ 690 0328 67800000 		jr	ra
+ 691              		.cfi_endproc
+ 692              	.LFE46:
+ 694              		.align	2
+ 695              		.globl	_ZN9Semaphore6signalEv
+ 697              	_ZN9Semaphore6signalEv:
+ 698              	.LFB47:
+  87:src/syscall_cpp.cpp ****     sem_signal(myHandle);
+ 699              		.loc 2 87 25 is_stmt 1
+ 700              		.cfi_startproc
+ 701              	.LVL45:
+ 702 032c 130101FF 		addi	sp,sp,-16
+ 703              		.cfi_def_cfa_offset 16
+ 704 0330 23341100 		sd	ra,8(sp)
+ 705 0334 23308100 		sd	s0,0(sp)
+ 706              		.cfi_offset 1, -8
+ 707              		.cfi_offset 8, -16
+ 708 0338 13040101 		addi	s0,sp,16
+ 709              		.cfi_def_cfa 8, 0
+  88:src/syscall_cpp.cpp ****     return 0;
+ 710              		.loc 2 88 5
+  88:src/syscall_cpp.cpp ****     return 0;
+ 711              		.loc 2 88 15 is_stmt 0
+ 712 033c 03358500 		ld	a0,8(a0)
+ 713              	.LVL46:
+ 714 0340 97000000 		call	_Z10sem_signalP9semaphore@plt
+ 714      E7800000 
+GAS LISTING /tmp/cc5tKurl.s 			page 17
+
+
+ 715              	.LVL47:
+  89:src/syscall_cpp.cpp **** }
+ 716              		.loc 2 89 5 is_stmt 1
+  90:src/syscall_cpp.cpp **** Semaphore::~Semaphore () {
+ 717              		.loc 2 90 1 is_stmt 0
+ 718 0348 13050000 		li	a0,0
+ 719 034c 83308100 		ld	ra,8(sp)
+ 720              		.cfi_restore 1
+ 721 0350 03340100 		ld	s0,0(sp)
+ 722              		.cfi_restore 8
+ 723              		.cfi_def_cfa 2, 16
+ 724 0354 13010101 		addi	sp,sp,16
+ 725              		.cfi_def_cfa_offset 0
+ 726 0358 67800000 		jr	ra
+ 727              		.cfi_endproc
+ 728              	.LFE47:
+ 730              		.align	2
+ 731              		.globl	_ZN7Console4getcEv
+ 733              	_ZN7Console4getcEv:
+ 734              	.LFB52:
+  94:src/syscall_cpp.cpp **** 
+  95:src/syscall_cpp.cpp **** char Console::getc()
+  96:src/syscall_cpp.cpp **** {
+ 735              		.loc 2 96 1 is_stmt 1
+ 736              		.cfi_startproc
+ 737 035c 130101FF 		addi	sp,sp,-16
+ 738              		.cfi_def_cfa_offset 16
+ 739 0360 23341100 		sd	ra,8(sp)
+ 740 0364 23308100 		sd	s0,0(sp)
+ 741              		.cfi_offset 1, -8
+ 742              		.cfi_offset 8, -16
+ 743 0368 13040101 		addi	s0,sp,16
+ 744              		.cfi_def_cfa 8, 0
+  97:src/syscall_cpp.cpp ****     return ::getc();
+ 745              		.loc 2 97 5
+ 746              		.loc 2 97 18 is_stmt 0
+ 747 036c 97000000 		call	_Z4getcv@plt
+ 747      E7800000 
+ 748              	.LVL48:
+  98:src/syscall_cpp.cpp **** }
+ 749              		.loc 2 98 1
+ 750 0374 83308100 		ld	ra,8(sp)
+ 751              		.cfi_restore 1
+ 752 0378 03340100 		ld	s0,0(sp)
+ 753              		.cfi_restore 8
+ 754              		.cfi_def_cfa 2, 16
+ 755 037c 13010101 		addi	sp,sp,16
+ 756              		.cfi_def_cfa_offset 0
+ 757 0380 67800000 		jr	ra
+ 758              		.cfi_endproc
+ 759              	.LFE52:
+ 761              		.align	2
+ 762              		.globl	_ZN7Console4putcEc
+ 764              	_ZN7Console4putcEc:
+ 765              	.LFB53:
+  99:src/syscall_cpp.cpp **** 
+ 100:src/syscall_cpp.cpp **** void Console::putc(char c)
+GAS LISTING /tmp/cc5tKurl.s 			page 18
+
+
+ 101:src/syscall_cpp.cpp **** {
+ 766              		.loc 2 101 1 is_stmt 1
+ 767              		.cfi_startproc
+ 768              	.LVL49:
+ 769 0384 130101FF 		addi	sp,sp,-16
+ 770              		.cfi_def_cfa_offset 16
+ 771 0388 23341100 		sd	ra,8(sp)
+ 772 038c 23308100 		sd	s0,0(sp)
+ 773              		.cfi_offset 1, -8
+ 774              		.cfi_offset 8, -16
+ 775 0390 13040101 		addi	s0,sp,16
+ 776              		.cfi_def_cfa 8, 0
+ 102:src/syscall_cpp.cpp ****     ::putc(c);
+ 777              		.loc 2 102 5
+ 778              		.loc 2 102 11 is_stmt 0
+ 779 0394 97000000 		call	_Z4putcc@plt
+ 779      E7800000 
+ 780              	.LVL50:
+ 103:src/syscall_cpp.cpp **** }
+ 781              		.loc 2 103 1
+ 782 039c 83308100 		ld	ra,8(sp)
+ 783              		.cfi_restore 1
+ 784 03a0 03340100 		ld	s0,0(sp)
+ 785              		.cfi_restore 8
+ 786              		.cfi_def_cfa 2, 16
+ 787 03a4 13010101 		addi	sp,sp,16
+ 788              		.cfi_def_cfa_offset 0
+ 789 03a8 67800000 		jr	ra
+ 790              		.cfi_endproc
+ 791              	.LFE53:
+ 793              		.weak	_ZTV6Thread
+ 794              		.section	.data.rel.ro.local._ZTV6Thread,"awG",@progbits,_ZTV6Thread,comdat
+ 795              		.align	3
+ 798              	_ZTV6Thread:
+ 799 0000 00000000 		.dword	0
+ 799      00000000 
+ 800 0008 00000000 		.dword	0
+ 800      00000000 
+ 801 0010 00000000 		.dword	_ZN6ThreadD1Ev
+ 801      00000000 
+ 802 0018 00000000 		.dword	_ZN6ThreadD0Ev
+ 802      00000000 
+ 803 0020 00000000 		.dword	_ZN6Thread3runEv
+ 803      00000000 
+ 804              		.weak	_ZTV9Semaphore
+ 805              		.section	.data.rel.ro.local._ZTV9Semaphore,"awG",@progbits,_ZTV9Semaphore,comdat
+ 806              		.align	3
+ 809              	_ZTV9Semaphore:
+ 810 0000 00000000 		.dword	0
+ 810      00000000 
+ 811 0008 00000000 		.dword	0
+ 811      00000000 
+ 812 0010 00000000 		.dword	_ZN9SemaphoreD1Ev
+ 812      00000000 
+ 813 0018 00000000 		.dword	_ZN9SemaphoreD0Ev
+ 813      00000000 
+ 814              		.text
+GAS LISTING /tmp/cc5tKurl.s 			page 19
+
+
+ 815              	.Letext0:
+ 816              		.file 3 "src/../h/../h/../lib/hw.h"
+ 817              		.file 4 "src/../h/../h/../h/scheduler.hpp"
+ 818              		.file 5 "src/../h/../h/../h/list.hpp"
+ 819              		.file 6 "src/../h/../h/tcb.hpp"
+ 820              		.file 7 "src/../h/syscall_c.h"
+ 4542              		.align	3
+ 4545              	DW.ref.__gxx_personality_v0:
+ 4546 0000 00000000 		.dword	__gxx_personality_v0
+ 4546      00000000 
+ 4547              		.ident	"GCC: (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0"
+ 4548              		.section	.note.GNU-stack,"",@progbits
+GAS LISTING /tmp/cc5tKurl.s 			page 20
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 syscall_cpp.cpp
+     /tmp/cc5tKurl.s:10     .text._ZN6Thread3runEv:0000000000000000 _ZN6Thread3runEv
+     /tmp/cc5tKurl.s:14     .text._ZN6Thread3runEv:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:16     .text._ZN6Thread3runEv:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:17     .text._ZN6Thread3runEv:0000000000000004 .L0 
+     /tmp/cc5tKurl.s:19     .text._ZN6Thread3runEv:0000000000000008 .L0 
+     /tmp/cc5tKurl.s:21     .text._ZN6Thread3runEv:000000000000000c .L0 
+     /tmp/cc5tKurl.s:23     .text._ZN6Thread3runEv:000000000000000c .L0 
+     /tmp/cc5tKurl.s:24     .text._ZN6Thread3runEv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:25     .text._ZN6Thread3runEv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:27     .text._ZN6Thread3runEv:0000000000000014 .L0 
+     /tmp/cc5tKurl.s:29     .text._ZN6Thread3runEv:0000000000000018 .L0 
+     /tmp/cc5tKurl.s:36     .text._ZN6Thread7wrapperEPv:0000000000000000 _ZN6Thread7wrapperEPv
+     /tmp/cc5tKurl.s:39     .text._ZN6Thread7wrapperEPv:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:41     .text._ZN6Thread7wrapperEPv:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:42     .text._ZN6Thread7wrapperEPv:0000000000000004 .L0 
+     /tmp/cc5tKurl.s:45     .text._ZN6Thread7wrapperEPv:000000000000000c .L0 
+     /tmp/cc5tKurl.s:46     .text._ZN6Thread7wrapperEPv:000000000000000c .L0 
+     /tmp/cc5tKurl.s:48     .text._ZN6Thread7wrapperEPv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:51     .text._ZN6Thread7wrapperEPv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:52     .text._ZN6Thread7wrapperEPv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:53     .text._ZN6Thread7wrapperEPv:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:56     .text._ZN6Thread7wrapperEPv:0000000000000018 .L0 
+     /tmp/cc5tKurl.s:59     .text._ZN6Thread7wrapperEPv:000000000000001c .L0 
+     /tmp/cc5tKurl.s:60     .text._ZN6Thread7wrapperEPv:0000000000000020 .L0 
+     /tmp/cc5tKurl.s:62     .text._ZN6Thread7wrapperEPv:0000000000000024 .L0 
+     /tmp/cc5tKurl.s:63     .text._ZN6Thread7wrapperEPv:0000000000000024 .L0 
+     /tmp/cc5tKurl.s:65     .text._ZN6Thread7wrapperEPv:0000000000000028 .L0 
+     /tmp/cc5tKurl.s:67     .text._ZN6Thread7wrapperEPv:000000000000002c .L0 
+     /tmp/cc5tKurl.s:74     .text:0000000000000000 _ZN9SemaphoreD2Ev
+     /tmp/cc5tKurl.s:78     .text:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:4545   .data.rel.local.DW.ref.__gxx_personality_v0:0000000000000000 DW.ref.__gxx_personality_v0
+     /tmp/cc5tKurl.s:82     .text:0000000000000000 .L0 
+     /tmp/cc5tKurl.s:83     .text:0000000000000004 .L0 
+     /tmp/cc5tKurl.s:86     .text:000000000000000c .L0 
+     /tmp/cc5tKurl.s:87     .text:000000000000000c .L0 
+     /tmp/cc5tKurl.s:89     .text:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:809    .data.rel.ro.local._ZTV9Semaphore:0000000000000000 _ZTV9Semaphore
+     /tmp/cc5tKurl.s:92     .text:0000000000000010 .L0 
+     /tmp/cc5tKurl.s:95     .text:000000000000001c .L0 
+     /tmp/cc5tKurl.s:96     .text:000000000000001c .L0 
+     /tmp/cc5tKurl.s:102    .text:0000000000000028 .L0 
+     /tmp/cc5tKurl.s:103    .text:000000000000002c .L0 
+     /tmp/cc5tKurl.s:105    .text:0000000000000030 .L0 
+     /tmp/cc5tKurl.s:106    .text:0000000000000030 .L0 
+     /tmp/cc5tKurl.s:108    .text:0000000000000034 .L0 
+     /tmp/cc5tKurl.s:110    .text:0000000000000038 .L0 
+     /tmp/cc5tKurl.s:74     .text:0000000000000000 _ZN9SemaphoreD1Ev
+     /tmp/cc5tKurl.s:126    .text:0000000000000038 _Znam
+     /tmp/cc5tKurl.s:129    .text:0000000000000038 .L0 
+     /tmp/cc5tKurl.s:131    .text:0000000000000038 .L0 
+     /tmp/cc5tKurl.s:132    .text:000000000000003c .L0 
+     /tmp/cc5tKurl.s:135    .text:0000000000000044 .L0 
+     /tmp/cc5tKurl.s:136    .text:0000000000000044 .L0 
+     /tmp/cc5tKurl.s:138    .text:0000000000000048 .L0 
+     /tmp/cc5tKurl.s:140    .text:0000000000000048 .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 21
+
+
+     /tmp/cc5tKurl.s:141    .text:0000000000000048 .L0 
+     /tmp/cc5tKurl.s:144    .text:0000000000000050 .L0 
+     /tmp/cc5tKurl.s:145    .text:0000000000000054 .L0 
+     /tmp/cc5tKurl.s:147    .text:0000000000000058 .L0 
+     /tmp/cc5tKurl.s:148    .text:0000000000000058 .L0 
+     /tmp/cc5tKurl.s:150    .text:000000000000005c .L0 
+     /tmp/cc5tKurl.s:152    .text:0000000000000060 .L0 
+     /tmp/cc5tKurl.s:158    .text:0000000000000060 _Znwm
+     /tmp/cc5tKurl.s:161    .text:0000000000000060 .L0 
+     /tmp/cc5tKurl.s:163    .text:0000000000000060 .L0 
+     /tmp/cc5tKurl.s:164    .text:0000000000000064 .L0 
+     /tmp/cc5tKurl.s:167    .text:000000000000006c .L0 
+     /tmp/cc5tKurl.s:168    .text:000000000000006c .L0 
+     /tmp/cc5tKurl.s:170    .text:0000000000000070 .L0 
+     /tmp/cc5tKurl.s:172    .text:0000000000000070 .L0 
+     /tmp/cc5tKurl.s:173    .text:0000000000000070 .L0 
+     /tmp/cc5tKurl.s:176    .text:0000000000000078 .L0 
+     /tmp/cc5tKurl.s:177    .text:000000000000007c .L0 
+     /tmp/cc5tKurl.s:179    .text:0000000000000080 .L0 
+     /tmp/cc5tKurl.s:180    .text:0000000000000080 .L0 
+     /tmp/cc5tKurl.s:182    .text:0000000000000084 .L0 
+     /tmp/cc5tKurl.s:184    .text:0000000000000088 .L0 
+     /tmp/cc5tKurl.s:190    .text:0000000000000088 _ZdlPv
+     /tmp/cc5tKurl.s:193    .text:0000000000000088 .L0 
+     /tmp/cc5tKurl.s:197    .text:0000000000000088 .L0 
+     /tmp/cc5tKurl.s:198    .text:000000000000008c .L0 
+     /tmp/cc5tKurl.s:201    .text:0000000000000094 .L0 
+     /tmp/cc5tKurl.s:202    .text:0000000000000094 .L0 
+     /tmp/cc5tKurl.s:204    .text:0000000000000098 .L0 
+     /tmp/cc5tKurl.s:206    .text:0000000000000098 .L0 
+     /tmp/cc5tKurl.s:207    .text:0000000000000098 .L0 
+     /tmp/cc5tKurl.s:210    .text:00000000000000a0 .L0 
+     /tmp/cc5tKurl.s:211    .text:00000000000000a4 .L0 
+     /tmp/cc5tKurl.s:213    .text:00000000000000a8 .L0 
+     /tmp/cc5tKurl.s:214    .text:00000000000000a8 .L0 
+     /tmp/cc5tKurl.s:216    .text:00000000000000ac .L0 
+     /tmp/cc5tKurl.s:218    .text:00000000000000b0 .L0 
+     /tmp/cc5tKurl.s:231    .text:00000000000000b0 _ZN6ThreadD2Ev
+     /tmp/cc5tKurl.s:234    .text:00000000000000b0 .L0 
+     /tmp/cc5tKurl.s:237    .text:00000000000000b0 .L0 
+     /tmp/cc5tKurl.s:798    .data.rel.ro.local._ZTV6Thread:0000000000000000 _ZTV6Thread
+     /tmp/cc5tKurl.s:238    .text:00000000000000b0 .L0 
+     /tmp/cc5tKurl.s:241    .text:00000000000000bc .L0 
+     /tmp/cc5tKurl.s:242    .text:00000000000000bc .L0 
+     /tmp/cc5tKurl.s:244    .text:00000000000000c0 .L0 
+     /tmp/cc5tKurl.s:246    .text:00000000000000c4 .L0 
+     /tmp/cc5tKurl.s:247    .text:00000000000000c4 .L0 
+     /tmp/cc5tKurl.s:250    .text:00000000000000c8 .L0 
+     /tmp/cc5tKurl.s:253    .text:00000000000000cc .L0 
+     /tmp/cc5tKurl.s:254    .text:00000000000000d0 .L0 
+     /tmp/cc5tKurl.s:257    .text:00000000000000d8 .L0 
+     /tmp/cc5tKurl.s:258    .text:00000000000000d8 .L0 
+     /tmp/cc5tKurl.s:260    .text:00000000000000dc .L0 
+     /tmp/cc5tKurl.s:263    .text:00000000000000dc .L0 
+     /tmp/cc5tKurl.s:267    .text:00000000000000e4 .L0 
+     /tmp/cc5tKurl.s:268    .text:00000000000000e8 .L0 
+     /tmp/cc5tKurl.s:270    .text:00000000000000ec .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 22
+
+
+     /tmp/cc5tKurl.s:271    .text:00000000000000ec .L0 
+     /tmp/cc5tKurl.s:273    .text:00000000000000f0 .L0 
+     /tmp/cc5tKurl.s:277    .text:00000000000000f8 .L0 
+     /tmp/cc5tKurl.s:231    .text:00000000000000b0 _ZN6ThreadD1Ev
+     /tmp/cc5tKurl.s:285    .text:00000000000000f8 _ZN6ThreadD0Ev
+     /tmp/cc5tKurl.s:288    .text:00000000000000f8 .L0 
+     /tmp/cc5tKurl.s:290    .text:00000000000000f8 .L0 
+     /tmp/cc5tKurl.s:291    .text:00000000000000fc .L0 
+     /tmp/cc5tKurl.s:295    .text:0000000000000108 .L0 
+     /tmp/cc5tKurl.s:296    .text:0000000000000108 .L0 
+     /tmp/cc5tKurl.s:297    .text:0000000000000108 .L0 
+     /tmp/cc5tKurl.s:299    .text:000000000000010c .L0 
+     /tmp/cc5tKurl.s:302    .text:0000000000000110 .L0 
+     /tmp/cc5tKurl.s:308    .text:0000000000000128 .L0 
+     /tmp/cc5tKurl.s:310    .text:000000000000012c .L0 
+     /tmp/cc5tKurl.s:311    .text:000000000000012c .L0 
+     /tmp/cc5tKurl.s:313    .text:0000000000000130 .L0 
+     /tmp/cc5tKurl.s:316    .text:0000000000000134 .L0 
+     /tmp/cc5tKurl.s:318    .text:0000000000000138 .L0 
+     /tmp/cc5tKurl.s:324    .text:0000000000000138 _ZN9SemaphoreD0Ev
+     /tmp/cc5tKurl.s:327    .text:0000000000000138 .L0 
+     /tmp/cc5tKurl.s:329    .text:0000000000000138 .L0 
+     /tmp/cc5tKurl.s:330    .text:000000000000013c .L0 
+     /tmp/cc5tKurl.s:334    .text:0000000000000148 .L0 
+     /tmp/cc5tKurl.s:335    .text:0000000000000148 .L0 
+     /tmp/cc5tKurl.s:336    .text:0000000000000148 .L0 
+     /tmp/cc5tKurl.s:338    .text:000000000000014c .L0 
+     /tmp/cc5tKurl.s:341    .text:0000000000000150 .L0 
+     /tmp/cc5tKurl.s:347    .text:0000000000000168 .L0 
+     /tmp/cc5tKurl.s:349    .text:000000000000016c .L0 
+     /tmp/cc5tKurl.s:350    .text:000000000000016c .L0 
+     /tmp/cc5tKurl.s:352    .text:0000000000000170 .L0 
+     /tmp/cc5tKurl.s:355    .text:0000000000000174 .L0 
+     /tmp/cc5tKurl.s:357    .text:0000000000000178 .L0 
+     /tmp/cc5tKurl.s:363    .text:0000000000000178 _ZdaPv
+     /tmp/cc5tKurl.s:366    .text:0000000000000178 .L0 
+     /tmp/cc5tKurl.s:370    .text:0000000000000178 .L0 
+     /tmp/cc5tKurl.s:371    .text:000000000000017c .L0 
+     /tmp/cc5tKurl.s:374    .text:0000000000000184 .L0 
+     /tmp/cc5tKurl.s:375    .text:0000000000000184 .L0 
+     /tmp/cc5tKurl.s:377    .text:0000000000000188 .L0 
+     /tmp/cc5tKurl.s:379    .text:0000000000000188 .L0 
+     /tmp/cc5tKurl.s:380    .text:0000000000000188 .L0 
+     /tmp/cc5tKurl.s:383    .text:0000000000000190 .L0 
+     /tmp/cc5tKurl.s:384    .text:0000000000000194 .L0 
+     /tmp/cc5tKurl.s:386    .text:0000000000000198 .L0 
+     /tmp/cc5tKurl.s:387    .text:0000000000000198 .L0 
+     /tmp/cc5tKurl.s:389    .text:000000000000019c .L0 
+     /tmp/cc5tKurl.s:391    .text:00000000000001a0 .L0 
+     /tmp/cc5tKurl.s:404    .text:00000000000001a0 _ZN6ThreadC2EPFvPvES0_
+     /tmp/cc5tKurl.s:407    .text:00000000000001a0 .L0 
+     /tmp/cc5tKurl.s:409    .text:00000000000001a0 .L0 
+     /tmp/cc5tKurl.s:410    .text:00000000000001a4 .L0 
+     /tmp/cc5tKurl.s:413    .text:00000000000001ac .L0 
+     /tmp/cc5tKurl.s:414    .text:00000000000001ac .L0 
+     /tmp/cc5tKurl.s:416    .text:00000000000001b0 .L0 
+     /tmp/cc5tKurl.s:419    .text:00000000000001b0 .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 23
+
+
+     /tmp/cc5tKurl.s:422    .text:00000000000001bc .L0 
+     /tmp/cc5tKurl.s:423    .text:00000000000001bc .L0 
+     /tmp/cc5tKurl.s:425    .text:00000000000001c0 .L0 
+     /tmp/cc5tKurl.s:426    .text:00000000000001c0 .L0 
+     /tmp/cc5tKurl.s:428    .text:00000000000001c4 .L0 
+     /tmp/cc5tKurl.s:429    .text:00000000000001c4 .L0 
+     /tmp/cc5tKurl.s:435    .text:00000000000001d0 .L0 
+     /tmp/cc5tKurl.s:436    .text:00000000000001d4 .L0 
+     /tmp/cc5tKurl.s:438    .text:00000000000001d8 .L0 
+     /tmp/cc5tKurl.s:439    .text:00000000000001d8 .L0 
+     /tmp/cc5tKurl.s:441    .text:00000000000001dc .L0 
+     /tmp/cc5tKurl.s:443    .text:00000000000001e0 .L0 
+     /tmp/cc5tKurl.s:404    .text:00000000000001a0 _ZN6ThreadC1EPFvPvES0_
+     /tmp/cc5tKurl.s:451    .text:00000000000001e0 _ZN6ThreadC2Ev
+     /tmp/cc5tKurl.s:454    .text:00000000000001e0 .L0 
+     /tmp/cc5tKurl.s:456    .text:00000000000001e0 .L0 
+     /tmp/cc5tKurl.s:457    .text:00000000000001e4 .L0 
+     /tmp/cc5tKurl.s:460    .text:00000000000001ec .L0 
+     /tmp/cc5tKurl.s:461    .text:00000000000001ec .L0 
+     /tmp/cc5tKurl.s:463    .text:00000000000001f0 .L0 
+     /tmp/cc5tKurl.s:466    .text:00000000000001f0 .L0 
+     /tmp/cc5tKurl.s:469    .text:00000000000001fc .L0 
+     /tmp/cc5tKurl.s:470    .text:00000000000001fc .L0 
+     /tmp/cc5tKurl.s:478    .text:0000000000000214 .L0 
+     /tmp/cc5tKurl.s:479    .text:0000000000000218 .L0 
+     /tmp/cc5tKurl.s:481    .text:000000000000021c .L0 
+     /tmp/cc5tKurl.s:482    .text:000000000000021c .L0 
+     /tmp/cc5tKurl.s:484    .text:0000000000000220 .L0 
+     /tmp/cc5tKurl.s:486    .text:0000000000000224 .L0 
+     /tmp/cc5tKurl.s:451    .text:00000000000001e0 _ZN6ThreadC1Ev
+     /tmp/cc5tKurl.s:494    .text:0000000000000224 _ZN6Thread5sleepEm
+     /tmp/cc5tKurl.s:497    .text:0000000000000224 .L0 
+     /tmp/cc5tKurl.s:498    .text:0000000000000224 .L0 
+     /tmp/cc5tKurl.s:499    .text:0000000000000228 .L0 
+     /tmp/cc5tKurl.s:501    .text:000000000000022c .L0 
+     /tmp/cc5tKurl.s:503    .text:0000000000000230 .L0 
+     /tmp/cc5tKurl.s:505    .text:0000000000000230 .L0 
+     /tmp/cc5tKurl.s:506    .text:0000000000000230 .L0 
+     /tmp/cc5tKurl.s:508    .text:0000000000000238 .L0 
+     /tmp/cc5tKurl.s:509    .text:0000000000000238 .L0 
+     /tmp/cc5tKurl.s:511    .text:000000000000023c .L0 
+     /tmp/cc5tKurl.s:513    .text:0000000000000240 .L0 
+     /tmp/cc5tKurl.s:519    .text:0000000000000240 _ZN6Thread8dispatchEv
+     /tmp/cc5tKurl.s:522    .text:0000000000000240 .L0 
+     /tmp/cc5tKurl.s:523    .text:0000000000000240 .L0 
+     /tmp/cc5tKurl.s:524    .text:0000000000000244 .L0 
+     /tmp/cc5tKurl.s:527    .text:000000000000024c .L0 
+     /tmp/cc5tKurl.s:528    .text:000000000000024c .L0 
+     /tmp/cc5tKurl.s:530    .text:0000000000000250 .L0 
+     /tmp/cc5tKurl.s:532    .text:0000000000000250 .L0 
+     /tmp/cc5tKurl.s:533    .text:0000000000000250 .L0 
+     /tmp/cc5tKurl.s:536    .text:0000000000000258 .L0 
+     /tmp/cc5tKurl.s:537    .text:000000000000025c .L0 
+     /tmp/cc5tKurl.s:539    .text:0000000000000260 .L0 
+     /tmp/cc5tKurl.s:540    .text:0000000000000260 .L0 
+     /tmp/cc5tKurl.s:542    .text:0000000000000264 .L0 
+     /tmp/cc5tKurl.s:544    .text:0000000000000268 .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 24
+
+
+     /tmp/cc5tKurl.s:550    .text:0000000000000268 _ZN6Thread5startEv
+     /tmp/cc5tKurl.s:553    .text:0000000000000268 .L0 
+     /tmp/cc5tKurl.s:555    .text:0000000000000268 .L0 
+     /tmp/cc5tKurl.s:556    .text:000000000000026c .L0 
+     /tmp/cc5tKurl.s:559    .text:0000000000000274 .L0 
+     /tmp/cc5tKurl.s:560    .text:0000000000000274 .L0 
+     /tmp/cc5tKurl.s:562    .text:0000000000000278 .L0 
+     /tmp/cc5tKurl.s:564    .text:0000000000000278 .L0 
+     /tmp/cc5tKurl.s:565    .text:0000000000000278 .L0 
+     /tmp/cc5tKurl.s:570    .text:0000000000000284 .L0 
+     /tmp/cc5tKurl.s:571    .text:0000000000000284 .L0 
+     /tmp/cc5tKurl.s:573    .text:000000000000028c .L0 
+     /tmp/cc5tKurl.s:575    .text:0000000000000290 .L0 
+     /tmp/cc5tKurl.s:576    .text:0000000000000290 .L0 
+     /tmp/cc5tKurl.s:578    .text:0000000000000294 .L0 
+     /tmp/cc5tKurl.s:580    .text:0000000000000298 .L0 
+     /tmp/cc5tKurl.s:586    .text:0000000000000298 _ZN6Thread4joinEv
+     /tmp/cc5tKurl.s:589    .text:0000000000000298 .L0 
+     /tmp/cc5tKurl.s:591    .text:0000000000000298 .L0 
+     /tmp/cc5tKurl.s:592    .text:000000000000029c .L0 
+     /tmp/cc5tKurl.s:595    .text:00000000000002a4 .L0 
+     /tmp/cc5tKurl.s:596    .text:00000000000002a4 .L0 
+     /tmp/cc5tKurl.s:598    .text:00000000000002a8 .L0 
+     /tmp/cc5tKurl.s:600    .text:00000000000002a8 .L0 
+     /tmp/cc5tKurl.s:601    .text:00000000000002a8 .L0 
+     /tmp/cc5tKurl.s:606    .text:00000000000002b4 .L0 
+     /tmp/cc5tKurl.s:607    .text:00000000000002b8 .L0 
+     /tmp/cc5tKurl.s:609    .text:00000000000002bc .L0 
+     /tmp/cc5tKurl.s:610    .text:00000000000002bc .L0 
+     /tmp/cc5tKurl.s:612    .text:00000000000002c0 .L0 
+     /tmp/cc5tKurl.s:614    .text:00000000000002c4 .L0 
+     /tmp/cc5tKurl.s:620    .text:00000000000002c4 _ZN9SemaphoreC2Ej
+     /tmp/cc5tKurl.s:623    .text:00000000000002c4 .L0 
+     /tmp/cc5tKurl.s:625    .text:00000000000002c4 .L0 
+     /tmp/cc5tKurl.s:626    .text:00000000000002c8 .L0 
+     /tmp/cc5tKurl.s:629    .text:00000000000002d0 .L0 
+     /tmp/cc5tKurl.s:630    .text:00000000000002d0 .L0 
+     /tmp/cc5tKurl.s:632    .text:00000000000002d4 .L0 
+     /tmp/cc5tKurl.s:635    .text:00000000000002d4 .L0 
+     /tmp/cc5tKurl.s:638    .text:00000000000002e0 .L0 
+     /tmp/cc5tKurl.s:639    .text:00000000000002e0 .L0 
+     /tmp/cc5tKurl.s:645    .text:00000000000002ec .L0 
+     /tmp/cc5tKurl.s:646    .text:00000000000002f0 .L0 
+     /tmp/cc5tKurl.s:648    .text:00000000000002f4 .L0 
+     /tmp/cc5tKurl.s:649    .text:00000000000002f4 .L0 
+     /tmp/cc5tKurl.s:651    .text:00000000000002f8 .L0 
+     /tmp/cc5tKurl.s:653    .text:00000000000002fc .L0 
+     /tmp/cc5tKurl.s:620    .text:00000000000002c4 _ZN9SemaphoreC1Ej
+     /tmp/cc5tKurl.s:661    .text:00000000000002fc _ZN9Semaphore4waitEv
+     /tmp/cc5tKurl.s:664    .text:00000000000002fc .L0 
+     /tmp/cc5tKurl.s:666    .text:00000000000002fc .L0 
+     /tmp/cc5tKurl.s:667    .text:0000000000000300 .L0 
+     /tmp/cc5tKurl.s:670    .text:0000000000000308 .L0 
+     /tmp/cc5tKurl.s:671    .text:0000000000000308 .L0 
+     /tmp/cc5tKurl.s:673    .text:000000000000030c .L0 
+     /tmp/cc5tKurl.s:675    .text:000000000000030c .L0 
+     /tmp/cc5tKurl.s:676    .text:000000000000030c .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 25
+
+
+     /tmp/cc5tKurl.s:681    .text:0000000000000318 .L0 
+     /tmp/cc5tKurl.s:682    .text:0000000000000318 .L0 
+     /tmp/cc5tKurl.s:684    .text:0000000000000320 .L0 
+     /tmp/cc5tKurl.s:686    .text:0000000000000324 .L0 
+     /tmp/cc5tKurl.s:687    .text:0000000000000324 .L0 
+     /tmp/cc5tKurl.s:689    .text:0000000000000328 .L0 
+     /tmp/cc5tKurl.s:691    .text:000000000000032c .L0 
+     /tmp/cc5tKurl.s:697    .text:000000000000032c _ZN9Semaphore6signalEv
+     /tmp/cc5tKurl.s:700    .text:000000000000032c .L0 
+     /tmp/cc5tKurl.s:702    .text:000000000000032c .L0 
+     /tmp/cc5tKurl.s:703    .text:0000000000000330 .L0 
+     /tmp/cc5tKurl.s:706    .text:0000000000000338 .L0 
+     /tmp/cc5tKurl.s:707    .text:0000000000000338 .L0 
+     /tmp/cc5tKurl.s:709    .text:000000000000033c .L0 
+     /tmp/cc5tKurl.s:711    .text:000000000000033c .L0 
+     /tmp/cc5tKurl.s:712    .text:000000000000033c .L0 
+     /tmp/cc5tKurl.s:717    .text:0000000000000348 .L0 
+     /tmp/cc5tKurl.s:718    .text:0000000000000348 .L0 
+     /tmp/cc5tKurl.s:720    .text:0000000000000350 .L0 
+     /tmp/cc5tKurl.s:722    .text:0000000000000354 .L0 
+     /tmp/cc5tKurl.s:723    .text:0000000000000354 .L0 
+     /tmp/cc5tKurl.s:725    .text:0000000000000358 .L0 
+     /tmp/cc5tKurl.s:727    .text:000000000000035c .L0 
+     /tmp/cc5tKurl.s:733    .text:000000000000035c _ZN7Console4getcEv
+     /tmp/cc5tKurl.s:736    .text:000000000000035c .L0 
+     /tmp/cc5tKurl.s:737    .text:000000000000035c .L0 
+     /tmp/cc5tKurl.s:738    .text:0000000000000360 .L0 
+     /tmp/cc5tKurl.s:741    .text:0000000000000368 .L0 
+     /tmp/cc5tKurl.s:742    .text:0000000000000368 .L0 
+     /tmp/cc5tKurl.s:744    .text:000000000000036c .L0 
+     /tmp/cc5tKurl.s:746    .text:000000000000036c .L0 
+     /tmp/cc5tKurl.s:747    .text:000000000000036c .L0 
+     /tmp/cc5tKurl.s:750    .text:0000000000000374 .L0 
+     /tmp/cc5tKurl.s:751    .text:0000000000000378 .L0 
+     /tmp/cc5tKurl.s:753    .text:000000000000037c .L0 
+     /tmp/cc5tKurl.s:754    .text:000000000000037c .L0 
+     /tmp/cc5tKurl.s:756    .text:0000000000000380 .L0 
+     /tmp/cc5tKurl.s:758    .text:0000000000000384 .L0 
+     /tmp/cc5tKurl.s:764    .text:0000000000000384 _ZN7Console4putcEc
+     /tmp/cc5tKurl.s:767    .text:0000000000000384 .L0 
+     /tmp/cc5tKurl.s:769    .text:0000000000000384 .L0 
+     /tmp/cc5tKurl.s:770    .text:0000000000000388 .L0 
+     /tmp/cc5tKurl.s:773    .text:0000000000000390 .L0 
+     /tmp/cc5tKurl.s:774    .text:0000000000000390 .L0 
+     /tmp/cc5tKurl.s:776    .text:0000000000000394 .L0 
+     /tmp/cc5tKurl.s:778    .text:0000000000000394 .L0 
+     /tmp/cc5tKurl.s:779    .text:0000000000000394 .L0 
+     /tmp/cc5tKurl.s:782    .text:000000000000039c .L0 
+     /tmp/cc5tKurl.s:783    .text:00000000000003a0 .L0 
+     /tmp/cc5tKurl.s:785    .text:00000000000003a4 .L0 
+     /tmp/cc5tKurl.s:786    .text:00000000000003a4 .L0 
+     /tmp/cc5tKurl.s:788    .text:00000000000003a8 .L0 
+     /tmp/cc5tKurl.s:790    .text:00000000000003ac .L0 
+     /tmp/cc5tKurl.s:32     .text._ZN6Thread3runEv:0000000000000018 .L0 
+     /tmp/cc5tKurl.s:70     .text._ZN6Thread7wrapperEPv:000000000000002c .L0 
+     /tmp/cc5tKurl.s:821    .text:00000000000003ac .L0 
+     /tmp/cc5tKurl.s:92     .text:0000000000000010 .L0 
+GAS LISTING /tmp/cc5tKurl.s 			page 26
+
+
+     /tmp/cc5tKurl.s:238    .text:00000000000000b0 .L0 
+     /tmp/cc5tKurl.s:419    .text:00000000000001b0 .L0 
+     /tmp/cc5tKurl.s:466    .text:00000000000001f0 .L0 
+     /tmp/cc5tKurl.s:471    .text:0000000000000200 .L0 
+     /tmp/cc5tKurl.s:635    .text:00000000000002d4 .L0 
+     /tmp/cc5tKurl.s:275    .text:00000000000000f4 .L16
+     /tmp/cc5tKurl.s:2524   .debug_abbrev:0000000000000000 .Ldebug_abbrev0
+     /tmp/cc5tKurl.s:4481   .debug_str:0000000000000889 .LASF161
+     /tmp/cc5tKurl.s:4445   .debug_str:0000000000000799 .LASF162
+     /tmp/cc5tKurl.s:4409   .debug_str:000000000000067e .LASF163
+     /tmp/cc5tKurl.s:4177   .debug_ranges:0000000000000000 .Ldebug_ranges0
+     /tmp/cc5tKurl.s:4187   .debug_line:0000000000000000 .Ldebug_line0
+     /tmp/cc5tKurl.s:4383   .debug_str:00000000000005cb .LASF0
+     /tmp/cc5tKurl.s:4399   .debug_str:000000000000062c .LASF1
+     /tmp/cc5tKurl.s:4361   .debug_str:000000000000053f .LASF2
+     /tmp/cc5tKurl.s:4323   .debug_str:000000000000042a .LASF4
+     /tmp/cc5tKurl.s:4455   .debug_str:00000000000007d6 .LASF3
+     /tmp/cc5tKurl.s:4219   .debug_str:00000000000000de .LASF5
+     /tmp/cc5tKurl.s:4265   .debug_str:000000000000020a .LASF6
+     /tmp/cc5tKurl.s:4405   .debug_str:0000000000000660 .LASF7
+     /tmp/cc5tKurl.s:4381   .debug_str:00000000000005b8 .LASF8
+     /tmp/cc5tKurl.s:4497   .debug_str:00000000000009ab .LASF9
+     /tmp/cc5tKurl.s:4299   .debug_str:0000000000000337 .LASF10
+     /tmp/cc5tKurl.s:4419   .debug_str:00000000000006d3 .LASF11
+     /tmp/cc5tKurl.s:4485   .debug_str:0000000000000959 .LASF12
+     /tmp/cc5tKurl.s:4225   .debug_str:00000000000000f8 .LASF13
+     /tmp/cc5tKurl.s:4199   .debug_str:000000000000004b .LASF14
+     /tmp/cc5tKurl.s:4239   .debug_str:0000000000000168 .LASF15
+     /tmp/cc5tKurl.s:4449   .debug_str:00000000000007b3 .LASF16
+     /tmp/cc5tKurl.s:4255   .debug_str:00000000000001c6 .LASF17
+     /tmp/cc5tKurl.s:4415   .debug_str:00000000000006b9 .LASF21
+     /tmp/cc5tKurl.s:4473   .debug_str:0000000000000857 .LASF18
+     /tmp/cc5tKurl.s:4191   .debug_str:0000000000000009 .LASF19
+     /tmp/cc5tKurl.s:4357   .debug_str:0000000000000520 .LASF26
+     /tmp/cc5tKurl.s:4411   .debug_str:00000000000006aa .LASF57
+     /tmp/cc5tKurl.s:4469   .debug_str:000000000000082f .LASF59
+     /tmp/cc5tKurl.s:4483   .debug_str:000000000000094d .LASF20
+     /tmp/cc5tKurl.s:4335   .debug_str:000000000000045a .LASF90
+     /tmp/cc5tKurl.s:4317   .debug_str:00000000000003e9 .LASF164
+     /tmp/cc5tKurl.s:4235   .debug_str:0000000000000146 .LASF165
+     /tmp/cc5tKurl.s:4351   .debug_str:00000000000004de .LASF22
+     /tmp/cc5tKurl.s:4487   .debug_str:0000000000000968 .LASF166
+     /tmp/cc5tKurl.s:4261   .debug_str:00000000000001f6 .LASF23
+     /tmp/cc5tKurl.s:4367   .debug_str:0000000000000565 .LASF24
+     /tmp/cc5tKurl.s:4321   .debug_str:0000000000000425 .LASF25
+     /tmp/cc5tKurl.s:4471   .debug_str:0000000000000844 .LASF27
+     /tmp/cc5tKurl.s:4441   .debug_str:0000000000000777 .LASF33
+     /tmp/cc5tKurl.s:4375   .debug_str:0000000000000591 .LASF98
+     /tmp/cc5tKurl.s:4307   .debug_str:0000000000000381 .LASF100
+     /tmp/cc5tKurl.s:4479   .debug_str:0000000000000880 .LASF28
+     /tmp/cc5tKurl.s:4269   .debug_str:000000000000022d .LASF29
+     /tmp/cc5tKurl.s:4297   .debug_str:000000000000032f .LASF30
+     /tmp/cc5tKurl.s:4267   .debug_str:0000000000000211 .LASF31
+     /tmp/cc5tKurl.s:4365   .debug_str:0000000000000559 .LASF32
+     /tmp/cc5tKurl.s:4197   .debug_str:000000000000002d .LASF34
+     /tmp/cc5tKurl.s:4233   .debug_str:000000000000013c .LASF35
+     /tmp/cc5tKurl.s:4337   .debug_str:0000000000000477 .LASF36
+GAS LISTING /tmp/cc5tKurl.s 			page 27
+
+
+     /tmp/cc5tKurl.s:4389   .debug_str:00000000000005e6 .LASF37
+     /tmp/cc5tKurl.s:4211   .debug_str:0000000000000081 .LASF38
+     /tmp/cc5tKurl.s:4343   .debug_str:00000000000004b0 .LASF39
+     /tmp/cc5tKurl.s:4513   .debug_str:0000000000000a29 .LASF40
+     /tmp/cc5tKurl.s:4205   .debug_str:000000000000006a .LASF167
+     /tmp/cc5tKurl.s:4271   .debug_str:000000000000024a .LASF41
+     /tmp/cc5tKurl.s:4429   .debug_str:0000000000000718 .LASF42
+     /tmp/cc5tKurl.s:4407   .debug_str:0000000000000673 .LASF43
+     /tmp/cc5tKurl.s:4247   .debug_str:000000000000018a .LASF44
+     /tmp/cc5tKurl.s:4363   .debug_str:000000000000054d .LASF45
+     /tmp/cc5tKurl.s:4531   .debug_str:0000000000000ab6 .LASF46
+     /tmp/cc5tKurl.s:4203   .debug_str:0000000000000060 .LASF47
+     /tmp/cc5tKurl.s:4341   .debug_str:000000000000049b .LASF48
+     /tmp/cc5tKurl.s:4325   .debug_str:0000000000000431 .LASF49
+     /tmp/cc5tKurl.s:4491   .debug_str:000000000000097f .LASF50
+     /tmp/cc5tKurl.s:4355   .debug_str:0000000000000513 .LASF51
+     /tmp/cc5tKurl.s:4215   .debug_str:00000000000000b5 .LASF52
+     /tmp/cc5tKurl.s:4195   .debug_str:0000000000000020 .LASF53
+     /tmp/cc5tKurl.s:4311   .debug_str:00000000000003b1 .LASF54
+     /tmp/cc5tKurl.s:4433   .debug_str:0000000000000730 .LASF168
+     /tmp/cc5tKurl.s:4303   .debug_str:0000000000000357 .LASF55
+     /tmp/cc5tKurl.s:4289   .debug_str:00000000000002c3 .LASF56
+     /tmp/cc5tKurl.s:4421   .debug_str:00000000000006e2 .LASF58
+     /tmp/cc5tKurl.s:4435   .debug_str:0000000000000735 .LASF60
+     /tmp/cc5tKurl.s:4447   .debug_str:00000000000007ad .LASF61
+     /tmp/cc5tKurl.s:4369   .debug_str:000000000000056a .LASF62
+     /tmp/cc5tKurl.s:4459   .debug_str:00000000000007f9 .LASF66
+     /tmp/cc5tKurl.s:4423   .debug_str:00000000000006ed .LASF76
+     /tmp/cc5tKurl.s:4277   .debug_str:000000000000026d .LASF63
+     /tmp/cc5tKurl.s:4385   .debug_str:00000000000005d8 .LASF64
+     /tmp/cc5tKurl.s:4281   .debug_str:0000000000000288 .LASF65
+     /tmp/cc5tKurl.s:4377   .debug_str:000000000000059b .LASF169
+     /tmp/cc5tKurl.s:4329   .debug_str:0000000000000445 .LASF67
+     /tmp/cc5tKurl.s:4241   .debug_str:0000000000000174 .LASF68
+     /tmp/cc5tKurl.s:4333   .debug_str:0000000000000452 .LASF69
+     /tmp/cc5tKurl.s:4391   .debug_str:00000000000005f1 .LASF70
+     /tmp/cc5tKurl.s:4327   .debug_str:000000000000043c .LASF71
+     /tmp/cc5tKurl.s:4379   .debug_str:00000000000005b0 .LASF72
+     /tmp/cc5tKurl.s:4249   .debug_str:00000000000001a1 .LASF73
+     /tmp/cc5tKurl.s:4345   .debug_str:00000000000004b9 .LASF78
+     /tmp/cc5tKurl.s:4309   .debug_str:0000000000000398 .LASF80
+     /tmp/cc5tKurl.s:4509   .debug_str:0000000000000a0e .LASF74
+     /tmp/cc5tKurl.s:4319   .debug_str:00000000000003fd .LASF93
+     /tmp/cc5tKurl.s:4397   .debug_str:0000000000000626 .LASF75
+     /tmp/cc5tKurl.s:4279   .debug_str:0000000000000275 .LASF77
+     /tmp/cc5tKurl.s:4221   .debug_str:00000000000000e5 .LASF79
+     /tmp/cc5tKurl.s:4301   .debug_str:0000000000000345 .LASF81
+     /tmp/cc5tKurl.s:4457   .debug_str:00000000000007e8 .LASF82
+     /tmp/cc5tKurl.s:4223   .debug_str:00000000000000ed .LASF83
+     /tmp/cc5tKurl.s:4313   .debug_str:00000000000003d5 .LASF84
+     /tmp/cc5tKurl.s:4189   .debug_str:0000000000000000 .LASF85
+     /tmp/cc5tKurl.s:4283   .debug_str:000000000000029b .LASF86
+     /tmp/cc5tKurl.s:4275   .debug_str:0000000000000267 .LASF87
+     /tmp/cc5tKurl.s:4237   .debug_str:000000000000015e .LASF170
+     /tmp/cc5tKurl.s:4515   .debug_str:0000000000000a43 .LASF88
+     /tmp/cc5tKurl.s:4201   .debug_str:000000000000005b .LASF89
+     /tmp/cc5tKurl.s:4231   .debug_str:0000000000000129 .LASF91
+GAS LISTING /tmp/cc5tKurl.s 			page 28
+
+
+     /tmp/cc5tKurl.s:4371   .debug_str:000000000000057a .LASF92
+     /tmp/cc5tKurl.s:4401   .debug_str:000000000000063f .LASF94
+     /tmp/cc5tKurl.s:4209   .debug_str:000000000000007c .LASF95
+     /tmp/cc5tKurl.s:4507   .debug_str:0000000000000a04 .LASF96
+     /tmp/cc5tKurl.s:4521   .debug_str:0000000000000a6b .LASF108
+     /tmp/cc5tKurl.s:4217   .debug_str:00000000000000ce .LASF110
+     /tmp/cc5tKurl.s:4489   .debug_str:000000000000096d .LASF97
+     /tmp/cc5tKurl.s:4443   .debug_str:000000000000078e .LASF99
+     /tmp/cc5tKurl.s:4519   .debug_str:0000000000000a59 .LASF101
+     /tmp/cc5tKurl.s:4533   .debug_str:0000000000000acd .LASF102
+     /tmp/cc5tKurl.s:4437   .debug_str:000000000000074b .LASF103
+     /tmp/cc5tKurl.s:4251   .debug_str:00000000000001ac .LASF104
+     /tmp/cc5tKurl.s:4439   .debug_str:0000000000000760 .LASF105
+     /tmp/cc5tKurl.s:4527   .debug_str:0000000000000a96 .LASF106
+     /tmp/cc5tKurl.s:4499   .debug_str:00000000000009bb .LASF171
+     /tmp/cc5tKurl.s:4493   .debug_str:0000000000000995 .LASF107
+     /tmp/cc5tKurl.s:4373   .debug_str:000000000000057f .LASF109
+     /tmp/cc5tKurl.s:4359   .debug_str:0000000000000532 .LASF111
+     /tmp/cc5tKurl.s:4529   .debug_str:0000000000000a9f .LASF112
+     /tmp/cc5tKurl.s:4331   .debug_str:000000000000044a .LASF113
+     /tmp/cc5tKurl.s:4229   .debug_str:000000000000011a .LASF114
+     /tmp/cc5tKurl.s:4295   .debug_str:000000000000031c .LASF115
+     /tmp/cc5tKurl.s:4393   .debug_str:00000000000005fb .LASF116
+     /tmp/cc5tKurl.s:4291   .debug_str:00000000000002ef .LASF117
+     /tmp/cc5tKurl.s:4535   .debug_str:0000000000000ad2 .LASF118
+     /tmp/cc5tKurl.s:4461   .debug_str:00000000000007fe .LASF119
+     /tmp/cc5tKurl.s:4495   .debug_str:000000000000099c .LASF120
+     /tmp/cc5tKurl.s:4525   .debug_str:0000000000000a85 .LASF172
+     /tmp/cc5tKurl.s:4467   .debug_str:0000000000000827 .LASF173
+     /tmp/cc5tKurl.s:4477   .debug_str:000000000000086a .LASF174
+     /tmp/cc5tKurl.s:765    .text:0000000000000384 .LFB53
+     /tmp/cc5tKurl.s:791    .text:00000000000003ac .LFE53
+     /tmp/cc5tKurl.s:3836   .debug_loc:0000000000000000 .LLST20
+     /tmp/cc5tKurl.s:780    .text:000000000000039c .LVL50
+     /tmp/cc5tKurl.s:734    .text:000000000000035c .LFB52
+     /tmp/cc5tKurl.s:759    .text:0000000000000384 .LFE52
+     /tmp/cc5tKurl.s:748    .text:0000000000000374 .LVL48
+     /tmp/cc5tKurl.s:4427   .debug_str:0000000000000713 .LASF121
+     /tmp/cc5tKurl.s:4207   .debug_str:0000000000000072 .LASF122
+     /tmp/cc5tKurl.s:4537   .debug_str:0000000000000ad8 .LASF123
+     /tmp/cc5tKurl.s:325    .text:0000000000000138 .LFB51
+     /tmp/cc5tKurl.s:358    .text:0000000000000178 .LFE51
+     /tmp/cc5tKurl.s:3850   .debug_loc:0000000000000039 .LLST8
+     /tmp/cc5tKurl.s:342    .text:0000000000000158 .LVL21
+     /tmp/cc5tKurl.s:345    .text:0000000000000164 .LVL22
+     /tmp/cc5tKurl.s:4227   .debug_str:0000000000000108 .LASF124
+     /tmp/cc5tKurl.s:75     .text:0000000000000000 .LFB49
+     /tmp/cc5tKurl.s:111    .text:0000000000000038 .LFE49
+     /tmp/cc5tKurl.s:3868   .debug_loc:0000000000000085 .LLST2
+     /tmp/cc5tKurl.s:99     .text:0000000000000028 .LVL6
+     /tmp/cc5tKurl.s:698    .text:000000000000032c .LFB47
+     /tmp/cc5tKurl.s:728    .text:000000000000035c .LFE47
+     /tmp/cc5tKurl.s:3882   .debug_loc:00000000000000be .LLST19
+     /tmp/cc5tKurl.s:715    .text:0000000000000348 .LVL47
+     /tmp/cc5tKurl.s:662    .text:00000000000002fc .LFB46
+     /tmp/cc5tKurl.s:692    .text:000000000000032c .LFE46
+     /tmp/cc5tKurl.s:3896   .debug_loc:00000000000000f7 .LLST18
+GAS LISTING /tmp/cc5tKurl.s 			page 29
+
+
+     /tmp/cc5tKurl.s:679    .text:0000000000000318 .LVL44
+     /tmp/cc5tKurl.s:4503   .debug_str:00000000000009e3 .LASF125
+     /tmp/cc5tKurl.s:621    .text:00000000000002c4 .LFB44
+     /tmp/cc5tKurl.s:654    .text:00000000000002fc .LFE44
+     /tmp/cc5tKurl.s:3910   .debug_loc:0000000000000130 .LLST16
+     /tmp/cc5tKurl.s:3930   .debug_loc:000000000000017e .LLST17
+     /tmp/cc5tKurl.s:642    .text:00000000000002ec .LVL41
+     /tmp/cc5tKurl.s:4257   .debug_str:00000000000001dc .LASF126
+     /tmp/cc5tKurl.s:286    .text:00000000000000f8 .LFB42
+     /tmp/cc5tKurl.s:319    .text:0000000000000138 .LFE42
+     /tmp/cc5tKurl.s:3944   .debug_loc:00000000000001b7 .LLST7
+     /tmp/cc5tKurl.s:303    .text:0000000000000118 .LVL17
+     /tmp/cc5tKurl.s:306    .text:0000000000000124 .LVL18
+     /tmp/cc5tKurl.s:4505   .debug_str:00000000000009f5 .LASF127
+     /tmp/cc5tKurl.s:232    .text:00000000000000b0 .LFB40
+     /tmp/cc5tKurl.s:278    .text:00000000000000f8 .LFE40
+     /tmp/cc5tKurl.s:3962   .debug_loc:0000000000000203 .LLST6
+     /tmp/cc5tKurl.s:264    .text:00000000000000e4 .LVL15
+     /tmp/cc5tKurl.s:587    .text:0000000000000298 .LFB38
+     /tmp/cc5tKurl.s:615    .text:00000000000002c4 .LFE38
+     /tmp/cc5tKurl.s:3982   .debug_loc:0000000000000251 .LLST15
+     /tmp/cc5tKurl.s:604    .text:00000000000002b4 .LVL38
+     /tmp/cc5tKurl.s:551    .text:0000000000000268 .LFB37
+     /tmp/cc5tKurl.s:581    .text:0000000000000298 .LFE37
+     /tmp/cc5tKurl.s:3996   .debug_loc:000000000000028a .LLST14
+     /tmp/cc5tKurl.s:568    .text:0000000000000284 .LVL35
+     /tmp/cc5tKurl.s:520    .text:0000000000000240 .LFB36
+     /tmp/cc5tKurl.s:545    .text:0000000000000268 .LFE36
+     /tmp/cc5tKurl.s:534    .text:0000000000000258 .LVL32
+     /tmp/cc5tKurl.s:495    .text:0000000000000224 .LFB35
+     /tmp/cc5tKurl.s:514    .text:0000000000000240 .LFE35
+     /tmp/cc5tKurl.s:4263   .debug_str:00000000000001fb .LASF128
+     /tmp/cc5tKurl.s:452    .text:00000000000001e0 .LFB33
+     /tmp/cc5tKurl.s:487    .text:0000000000000224 .LFE33
+     /tmp/cc5tKurl.s:4010   .debug_loc:00000000000002c3 .LLST13
+     /tmp/cc5tKurl.s:475    .text:0000000000000214 .LVL31
+     /tmp/cc5tKurl.s:4293   .debug_str:0000000000000305 .LASF129
+     /tmp/cc5tKurl.s:405    .text:00000000000001a0 .LFB30
+     /tmp/cc5tKurl.s:444    .text:00000000000001e0 .LFE30
+     /tmp/cc5tKurl.s:4028   .debug_loc:000000000000030f .LLST10
+     /tmp/cc5tKurl.s:4048   .debug_loc:000000000000035d .LLST11
+     /tmp/cc5tKurl.s:4062   .debug_loc:0000000000000396 .LLST12
+     /tmp/cc5tKurl.s:432    .text:00000000000001d0 .LVL28
+     /tmp/cc5tKurl.s:4253   .debug_str:00000000000001b3 .LASF130
+     /tmp/cc5tKurl.s:4453   .debug_str:00000000000007cf .LASF131
+     /tmp/cc5tKurl.s:364    .text:0000000000000178 .LFB28
+     /tmp/cc5tKurl.s:392    .text:00000000000001a0 .LFE28
+     /tmp/cc5tKurl.s:4523   .debug_str:0000000000000a80 .LASF132
+     /tmp/cc5tKurl.s:4076   .debug_loc:00000000000003cf .LLST9
+     /tmp/cc5tKurl.s:381    .text:0000000000000190 .LVL25
+     /tmp/cc5tKurl.s:4463   .debug_str:0000000000000811 .LASF133
+     /tmp/cc5tKurl.s:4245   .debug_str:0000000000000183 .LASF134
+     /tmp/cc5tKurl.s:191    .text:0000000000000088 .LFB27
+     /tmp/cc5tKurl.s:219    .text:00000000000000b0 .LFE27
+     /tmp/cc5tKurl.s:4090   .debug_loc:0000000000000408 .LLST5
+     /tmp/cc5tKurl.s:208    .text:00000000000000a0 .LVL12
+     /tmp/cc5tKurl.s:4511   .debug_str:0000000000000a1c .LASF135
+GAS LISTING /tmp/cc5tKurl.s 			page 30
+
+
+     /tmp/cc5tKurl.s:4451   .debug_str:00000000000007c9 .LASF136
+     /tmp/cc5tKurl.s:159    .text:0000000000000060 .LFB26
+     /tmp/cc5tKurl.s:185    .text:0000000000000088 .LFE26
+     /tmp/cc5tKurl.s:4104   .debug_loc:0000000000000441 .LLST4
+     /tmp/cc5tKurl.s:174    .text:0000000000000078 .LVL10
+     /tmp/cc5tKurl.s:4417   .debug_str:00000000000006c3 .LASF137
+     /tmp/cc5tKurl.s:4465   .debug_str:0000000000000821 .LASF138
+     /tmp/cc5tKurl.s:127    .text:0000000000000038 .LFB25
+     /tmp/cc5tKurl.s:153    .text:0000000000000060 .LFE25
+     /tmp/cc5tKurl.s:4118   .debug_loc:000000000000047a .LLST3
+     /tmp/cc5tKurl.s:142    .text:0000000000000050 .LVL8
+     /tmp/cc5tKurl.s:37     .text._ZN6Thread7wrapperEPv:0000000000000000 .LFB24
+     /tmp/cc5tKurl.s:68     .text._ZN6Thread7wrapperEPv:000000000000002c .LFE24
+     /tmp/cc5tKurl.s:4387   .debug_str:00000000000005e1 .LASF139
+     /tmp/cc5tKurl.s:4132   .debug_loc:00000000000004b3 .LLST0
+     /tmp/cc5tKurl.s:4349   .debug_str:00000000000004d7 .LASF140
+     /tmp/cc5tKurl.s:4146   .debug_loc:00000000000004ec .LLST1
+     /tmp/cc5tKurl.s:57     .text._ZN6Thread7wrapperEPv:000000000000001c .LVL3
+     /tmp/cc5tKurl.s:11     .text._ZN6Thread3runEv:0000000000000000 .LFB23
+     /tmp/cc5tKurl.s:30     .text._ZN6Thread3runEv:0000000000000018 .LFE23
+     /tmp/cc5tKurl.s:4287   .debug_str:00000000000002ba .LASF141
+     /tmp/cc5tKurl.s:4339   .debug_str:0000000000000492 .LASF142
+     /tmp/cc5tKurl.s:4273   .debug_str:000000000000024f .LASF143
+     /tmp/cc5tKurl.s:4413   .debug_str:00000000000006af .LASF144
+     /tmp/cc5tKurl.s:4285   .debug_str:00000000000002a0 .LASF145
+     /tmp/cc5tKurl.s:4259   .debug_str:00000000000001eb .LASF146
+     /tmp/cc5tKurl.s:4213   .debug_str:000000000000009e .LASF147
+     /tmp/cc5tKurl.s:4243   .debug_str:000000000000017a .LASF148
+     /tmp/cc5tKurl.s:4395   .debug_str:000000000000060d .LASF149
+     /tmp/cc5tKurl.s:4315   .debug_str:00000000000003e0 .LASF150
+     /tmp/cc5tKurl.s:4305   .debug_str:000000000000036c .LASF151
+     /tmp/cc5tKurl.s:4431   .debug_str:0000000000000724 .LASF152
+     /tmp/cc5tKurl.s:4425   .debug_str:00000000000006fe .LASF153
+     /tmp/cc5tKurl.s:4347   .debug_str:00000000000004c7 .LASF154
+     /tmp/cc5tKurl.s:4353   .debug_str:00000000000004e8 .LASF155
+     /tmp/cc5tKurl.s:4501   .debug_str:00000000000009cb .LASF156
+     /tmp/cc5tKurl.s:4517   .debug_str:0000000000000a4b .LASF157
+     /tmp/cc5tKurl.s:4475   .debug_str:0000000000000861 .LASF158
+     /tmp/cc5tKurl.s:4403   .debug_str:0000000000000652 .LASF159
+     /tmp/cc5tKurl.s:4193   .debug_str:0000000000000016 .LASF160
+     /tmp/cc5tKurl.s:768    .text:0000000000000384 .LVL49
+     /tmp/cc5tKurl.s:328    .text:0000000000000138 .LVL20
+     /tmp/cc5tKurl.s:353    .text:0000000000000170 .LVL23
+     /tmp/cc5tKurl.s:81     .text:0000000000000000 .LVL4
+     /tmp/cc5tKurl.s:97     .text:0000000000000020 .LVL5
+     /tmp/cc5tKurl.s:701    .text:000000000000032c .LVL45
+     /tmp/cc5tKurl.s:713    .text:0000000000000340 .LVL46
+     /tmp/cc5tKurl.s:665    .text:00000000000002fc .LVL42
+     /tmp/cc5tKurl.s:677    .text:0000000000000310 .LVL43
+     /tmp/cc5tKurl.s:624    .text:00000000000002c4 .LVL39
+     /tmp/cc5tKurl.s:640    .text:00000000000002e4 .LVL40
+     /tmp/cc5tKurl.s:289    .text:00000000000000f8 .LVL16
+     /tmp/cc5tKurl.s:314    .text:0000000000000130 .LVL19
+     /tmp/cc5tKurl.s:235    .text:00000000000000b0 .LVL13
+     /tmp/cc5tKurl.s:248    .text:00000000000000c8 .LVL14
+     /tmp/cc5tKurl.s:590    .text:0000000000000298 .LVL36
+     /tmp/cc5tKurl.s:602    .text:00000000000002ac .LVL37
+GAS LISTING /tmp/cc5tKurl.s 			page 31
+
+
+     /tmp/cc5tKurl.s:554    .text:0000000000000268 .LVL33
+     /tmp/cc5tKurl.s:566    .text:000000000000027c .LVL34
+     /tmp/cc5tKurl.s:455    .text:00000000000001e0 .LVL29
+     /tmp/cc5tKurl.s:473    .text:000000000000020c .LVL30
+     /tmp/cc5tKurl.s:408    .text:00000000000001a0 .LVL26
+     /tmp/cc5tKurl.s:430    .text:00000000000001c8 .LVL27
+     /tmp/cc5tKurl.s:369    .text:0000000000000178 .LVL24
+     /tmp/cc5tKurl.s:196    .text:0000000000000088 .LVL11
+     /tmp/cc5tKurl.s:162    .text:0000000000000060 .LVL9
+     /tmp/cc5tKurl.s:130    .text:0000000000000038 .LVL7
+     /tmp/cc5tKurl.s:40     .text._ZN6Thread7wrapperEPv:0000000000000000 .LVL1
+     /tmp/cc5tKurl.s:50     .text._ZN6Thread7wrapperEPv:0000000000000010 .LVL2
+     /tmp/cc5tKurl.s:822    .debug_info:0000000000000000 .Ldebug_info0
+     /tmp/cc5tKurl.s:5      .text:0000000000000000 .Ltext0
+     /tmp/cc5tKurl.s:815    .text:00000000000003ac .Letext0
+     /tmp/cc5tKurl.s:114    .gcc_except_table:0000000000000000 .LLSDA49
+     /tmp/cc5tKurl.s:221    .gcc_except_table:0000000000000004 .LLSDA27
+     /tmp/cc5tKurl.s:394    .gcc_except_table:0000000000000008 .LLSDA28
+
+UNDEFINED SYMBOLS
+_Z9sem_closeP9semaphore
+__gxx_personality_v0
+_Z9mem_allocm
+_Z8mem_freePv
+_Z23thread_create_not_startPP3TCBPFvPvES2_
+_Z15thread_dispatchv
+_ZN9Scheduler3putEP3TCB
+_Z11thread_joinP3TCB
+_Z8sem_openPP9semaphorej
+_Z8sem_waitP9semaphore
+_Z10sem_signalP9semaphore
+_Z4getcv
+_Z4putcc
